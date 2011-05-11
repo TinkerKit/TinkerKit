@@ -11,7 +11,6 @@
  modified by Davide Gomba
 
  This example code is in the public domain.
-
  */
 
 // These constants won't change.  They're used to give names
