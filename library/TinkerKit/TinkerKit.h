@@ -19,6 +19,7 @@
 #ifndef TinkerKit_h
 #define TinkerKit_h
 
+// Minimum Analog In/Out that each platform have
 #define I0 A0
 #define I1 A1
 #define I2 A2
@@ -32,6 +33,22 @@
 #define O3 6
 #define O4 5
 #define O5 3
+
+// Mega have more I/O
+#if defined(__AVR_ATmega2560__) || defined(__AVR_ATmega1280__)
+#define I6 A6
+#define I7 A7
+#define I8 A8
+#define I9 A9
+
+#define D13 13
+#define D12 12
+#define D8 8
+#define D7 7
+#define D4 4
+#define D2 2
+#endif
+
 
 
 

@@ -1,0 +1,38 @@
+#######################################
+# Syntax Coloring Map For swRTC
+####################################### 
+# Datatypes (KEYWORD1)
+#######################################
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################	
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+I0	LITERAL1
+I1	LITERAL1
+I2	LITERAL1
+I3	LITERAL1
+I4	LITERAL1
+I5	LITERAL1
+I6	LITERAL1
+I7	LITERAL1
+I8	LITERAL1
+I9	LITERAL1
+
+O0	LITERAL1
+O1	LITERAL1
+O2	LITERAL1
+O3	LITERAL1
+O4	LITERAL1
+O5	LITERAL1
+
+D13	LITERAL1
+D12	LITERAL1
+D8	LITERAL1
+D7	LITERAL1
+D4	LITERAL1
+D2	LITERAL1
+
