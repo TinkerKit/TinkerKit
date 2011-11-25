@@ -13,10 +13,6 @@
  This example code is in the public domain.
  */
 
-// These constants won't change.  They're used to give names
-// to the pins used:
-const int analogInPin = I0;  // Analog input pin that the Themistor is attached to
-const int analogOutPin= O0; // Analog output pin that the LED is attached to
 
 int sensorValue = 0;        // value read from the pot
 int outputValue = 0;        // value output to the PWM (analog out)
@@ -28,11 +24,11 @@ void setup() {
 
 void loop() {
   // read the analog in value:
-  sensorValue = analogRead(analogInPin);            
+  sensorValue = analogRead(I0);            
   // map it to the range of the analog out:
   outputValue = map(sensorValue, 0, 1023, 0, 255);  
   // change the analog out value:
-  analogWrite(analogOutPin, outputValue);          
+  analogWrite(O0, outputValue);          
 
   // print the results to the serial monitor:
   Serial.print("sensor = " );                      
