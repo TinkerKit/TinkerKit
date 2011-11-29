@@ -4,9 +4,32 @@
 # Datatypes (KEYWORD1)
 #######################################
 
+TinkerKit	KEYWORD1
+TKLed	KEYWORD1
+TKButton	KEYWORD1
+TKPotentiometer	KEYWORD1
+TKTiltSensor	KEYWORD1
+TKThermistor	KEYWORD1
+TKLightSensor	KEYWORD1
+TKMosFet	KEYWORD1
+TKRelay		KEYWORD1
+TKJoystick	KEYWORD1
+TKHallSensor	KEYWORD1
+TKGyroscope	KEYWORD1 
+TKAccelerometer	KEYWORD1
+
 #######################################
 # Methods and Functions (KEYWORD2)
 #######################################	
+
+state	KEYWORD2
+set	KEYWORD2
+on	KEYWORD2
+off	KEYWORD2
+blink	KEYWORD2
+getCelsius	KEYWORD2
+getFahrenheit	KEYWORD2
+toggle	KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
