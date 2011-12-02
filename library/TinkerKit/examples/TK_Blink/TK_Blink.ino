@@ -3,6 +3,8 @@
   Turns on an LED on for one second, then off for one second, repeatedly.
   The Tinkerkit Led Modules (T010110-7) is hooked up on O0
 
+  created in Dec 2011
+  by Federico Vanzati
 
   This example code is in the public domain.
  */
@@ -13,8 +15,7 @@
 TKLed led(O0);
 
 void setup() {
-// you don't need to configure the pins because they are already configured
-// when you create the object and assign to it the pin.
+// TinkerKit 'object' eliminate the need for pin declaration with pinMode()
 }
 
 void loop() {

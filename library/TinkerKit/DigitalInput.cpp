@@ -1,4 +1,4 @@
-#include "DigitalInput.h"
+#include "TinkerKit.h"
 
 DigitalInput::DigitalInput(uint8_t pin)
 {
@@ -6,7 +6,7 @@ DigitalInput::DigitalInput(uint8_t pin)
 	pinMode(_pin, INPUT);
 }
 
-boolean DigitalInput::state()
+boolean DigitalInput::get()
 {
 	return digitalRead(_pin); 
 }

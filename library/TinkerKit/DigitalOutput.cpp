@@ -1,4 +1,4 @@
-#include "DigitalOutput.h"
+#include "TinkerKit.h"
 
 DigitalOutput::DigitalOutput(uint8_t pin)
 {

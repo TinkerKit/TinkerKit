@@ -21,15 +21,12 @@
 // include the TinkerKit library
 #include <TinkerKit.h> 
 
-TKTiltSensor tilt(I0);       // creating the object 'tilt' that bleongs to the 'TKTiltSensor' class 
+TKTiltSensor tilt(I0);       // creating the object 'tilt' that belongs to the 'TKTiltSensor' class 
                              // and giving the value to the desired input pin
 
 TKLed led(O0);               // creating the object 'led' that belongs to the 'TKLed' class 
                              // and giving the value to the desired output pin
 
-
-// variables will change as they take the current value of the sensor.
-int tiltState = 0;           // variable for reading the tilt Sensor status
 
 void setup() { 
   // The 'objects' created above, eleminates the need for pinMode().
@@ -37,15 +34,13 @@ void setup() {
 
 void loop(){
 
-  tiltState = tilt.state();  // read the state of the tilt Sensor  value:
-
   // check if the tilt Sensor  is tilted.
 
-  if (tiltState == HIGH) {   // if it is, the tiltState is HIGH
-    led.on();                // turn LED on
+  if (tilt.state() == HIGH) {   // if it is, the tiltState is HIGH
+    led.on();                	// turn LED on
   } 
-  else {                     // if it is not, the tiltState is LOW
-    led.off();               // turn LED off
+  else {                   	// if it is not, the tiltState is LOW
+    led.off();              	// turn LED off
   }
 }
 

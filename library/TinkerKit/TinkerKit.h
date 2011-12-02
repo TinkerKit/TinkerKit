@@ -16,17 +16,13 @@
  *      MA 02110-1301, USA.
  */
 
-#include "WProgram.h"
+#include "Arduino.h"
 
 
 
 #ifndef TinkerKit_h
 #define TinkerKit_h
 
-#include "DigitalInput.h"
-#include "DigitalOutput.h"
-#include "AnalogInput.h"
-#include "AnalogOutput.h"
 
 // Minimum Analog In/Out that each platform have
 #define I0 A0
@@ -58,16 +54,73 @@
 #define D2 2
 #endif
 
+#define TK_MAX 1023
+#define TK_X1 0	// identifies the 1x TKGyro model
+#define TK_X4 1	// identifies the 4x TKGyro model
 
-class TinkerKit
+
+class DigitalInput
 {
-
-public:
-	// Initialise
-  TinkerKit(); 
-  
-protected:
+	public:
+		DigitalInput(uint8_t pin);
+		boolean get();
+	
+	protected:
+		boolean _pin;
 };
+
+/*
+ * Digital Output Class
+ */
+ 
+class DigitalOutput
+{
+	public:
+		DigitalOutput(uint8_t pin);
+		void set(boolean _value);		
+		boolean state();
+	
+	protected:
+		boolean _pin;
+		boolean _state;
+};
+
+/*
+ * Analog Input Class
+ */
+ 
+class AnalogInput 
+{
+	public:
+		AnalogInput(uint8_t pin);
+		int get();
+		
+	protected:
+		uint8_t _pin;
+};
+
+/*
+ *Analog Output Class
+ */
+ 
+class AnalogOutput 
+{
+	public:
+		AnalogOutput(uint8_t _pin);
+		void set(int _PWMvalue);
+		
+	protected:
+		uint8_t _pin;
+		int _PWMvalue;
+};
+
+
+/* 
+-----------------------------------------------------------------------------
+                        TinkerKit modules Classes
+-----------------------------------------------------------------------------
+*/
+
 
 /*
  * Buttons Class and Methods
@@ -77,9 +130,11 @@ class TKButton : public DigitalInput
 {
 	public:
 		TKButton(uint8_t pin);
-		//debounce();
 		boolean toggle();
-	
+		boolean pressed();
+		boolean held();
+		boolean released();
+		
 	protected:
 		boolean _toggleState, _oldState;
 };
@@ -112,11 +167,18 @@ class TKLed : public DigitalOutput, AnalogOutput
 {
 	public: 
 		TKLed(uint8_t pin);
-		inline void on() { set(HIGH); }
-		inline void off() { set(LOW); }
+		inline void on() { DigitalOutput::set(HIGH); }
+		inline void off() { DigitalOutput::set(LOW); }
+		inline void brightness(int value) { AnalogOutput::set(value); }
 		void blink(unsigned long _interval);
+		void fade(int startValue,int stopValue, unsigned long _interval);
 		
+	protected:
 		unsigned long _prevMillis;
+		uint8_t _currentFade;		
+		unsigned long _timeStep;
+		boolean _init;
+		int8_t _direction;
 };	
 
 /*
@@ -128,6 +190,7 @@ class TKPotentiometer : public AnalogInput
 	public:
 		TKPotentiometer(uint8_t pin);
 };
+
 
 /*
  * LightSensor Class and Methods
@@ -167,6 +230,9 @@ class TKMosFet : public DigitalOutput, AnalogOutput
 {
 	public:
 		TKMosFet(uint8_t pin);
+		void set(boolean value);
+		inline void on() { DigitalOutput::set(HIGH); }
+		inline void off() { DigitalOutput::set(LOW); }
 };
 
 /*
@@ -177,12 +243,89 @@ class TKRelay : public DigitalOutput
 {
 	public:
 		TKRelay(uint8_t pin);
+		inline void on() { DigitalOutput::set(HIGH); }
+		inline void off() { DigitalOutput::set(LOW); }
 };
 
 /*
  * Hall Sensor Class and Methods
  */
+
+class TKHallSensor : public AnalogInput
+{
+	public:
+		TKHallSensor(uint8_t pin);
+		inline boolean state() 
+		{ 
+			if(TKHallSensor::get() > _zeroValue)
+				return true;
+			else
+				return false;
+		}
+			
+		protected:
+			const static uint16_t _zeroValue = 510;
+};
+
+
+/*
+ * Joystick Class and Methods
+ */
  
+ class TKJoystick
+ {
+ 	public:
+ 		TKJoystick(uint8_t pinX, uint8_t pinY);
+ 		inline int getXAxis() { return _xAxis.get(); }
+ 		inline int getYAxis() { return _yAxis.get(); }
+ 		 		
+ 	protected:
+ 		AnalogInput _xAxis, _yAxis;
+ };
+ 
+ 
+/*
+ * Gyro Sensor Class and Methods
+ */
+
+class TKGyro
+{	
+	public:
+		TKGyro(uint8_t pinX, uint8_t pinY, boolean model);
+		inline int getXAxis() { return _xAxis.get(); }
+ 		inline int getYAxis() { return _yAxis.get(); }
+		int xAxisRate();
+		int yAxisRate();
+		
+	protected:
+		AnalogInput _xAxis, _yAxis;
+		boolean model;
+		int _amplification;
+		const static int _ADCresolution = 4888;	// [mV/count]	multiplierd by 1000 to avoid float numbers
+		// minimum sensitivity for the 1x module value (from datasheet is 0.167 mV/deg/s but the TinkerKit module has the outputs amplified 2x)
+		const static int _sensitivity = 334;	// Sensitivity is expressed in mV/degree/seconds, multiplierd by 1000 to avoid float numbers. 
+															// This value represent the sensitivity of the 1x module. The sensitivity of the 4x module is 4x of this one
+		const static int _sensitivityInCount = _ADCresolution / _sensitivity;	// we obtain the sensitivity expressed in ADC counts
+																										// [counts/dps]
+		const static int zeroVoltage = 503;	// 2.46V expressed in ADC counts
+};
+
+/*
+ * Accelerometer Class and Methods
+ */
+ 
+class TKAccelerometer
+{	
+	public:
+		TKAccelerometer(uint8_t pinX, uint8_t pinY);
+		inline int getXAxis() { return _xAxis.get(); }
+ 		inline int getYAxis() { return _yAxis.get(); }
+
+		
+	protected:
+		AnalogInput _xAxis, _yAxis;
+};
+
 #endif
 
 
