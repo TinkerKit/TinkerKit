@@ -23,6 +23,7 @@ float C, F;		      // temperature readings are returned in float format
 
 void setup()
 {
+  // initialize serial communications at 9600 bps
   Serial.begin(9600);
 }
 

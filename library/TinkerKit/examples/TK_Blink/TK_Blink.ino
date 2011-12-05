@@ -8,17 +8,19 @@
 
   This example code is in the public domain.
  */
+ 
 // include the TinkerKit library
 #include <TinkerKit.h>
 
-// create one LED object and initialize the pin on which is connected
-TKLed led(O0);
+TKLed led(O0);	// creating the object 'led' that belongs to the 'TKLed' class 
+		// and giving the value to the desired output pin
 
 void setup() {
 // TinkerKit 'object' eliminate the need for pin declaration with pinMode()
 }
 
-void loop() {
+void loop() 
+{
   led.on();       // set the LED on
   delay(1000);    // wait for a second
   led.off();      // set the LED off

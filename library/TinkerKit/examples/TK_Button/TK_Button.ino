@@ -1,8 +1,8 @@
 /*
  Button
 
- Turns on and off a T010111 LED Module connected to O0 (digital pin 11),
- when pressing a T000180 pushbutton attached to I0 (analog pin 0).
+ Turns on and off a T010111 LED Module connected to O0,
+ when pressing a T000180 pushbutton attached to I0.
 
  This example code is in the public domain.
 
@@ -28,13 +28,12 @@ void setup() {
 
 void loop()
 {
-  // check if the pushbutton is pressed.
-  // if it is, the button.state() is HIGH:
-  if (button.state() == HIGH) {    
-    // turn LED on:    
-    led.on(); 
-  } else {
-    // turn LED off:
-    led.off();
+  // check if the pushbutton is pressed
+  
+  if (button.state() == HIGH) {	// if it is, the button.state() is HIGH  
+    led.on();			// turn LED on 
+  } 
+  else {			// if it is not, the button.state() is LOW 
+    led.off();			// turn LED off
   }
 }

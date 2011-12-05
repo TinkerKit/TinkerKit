@@ -7,8 +7,9 @@
 TinkerKit	KEYWORD1
 TKLed	KEYWORD1
 TKButton	KEYWORD1
-TKPotentiometer	KEYWORD1
+TKTouchSensor	KEYWORD1
 TKTiltSensor	KEYWORD1
+TKPotentiometer	KEYWORD1
 TKThermistor	KEYWORD1
 TKLightSensor	KEYWORD1
 TKMosFet	KEYWORD1
@@ -38,8 +39,8 @@ brightness	KEYWORD2
 fade	KEYWORD2
 getXAxis	KEYWORD2
 getYAxis	KEYWORD2
-xAxisRate	KEYWORD2
-yAxisRate	KEYWORD2
+getXAxisRate	KEYWORD2
+getYAxisRate	KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
@@ -72,3 +73,5 @@ D2	LITERAL1
 TK_MAX	LITERAL1
 TK_1X	LITERAL1
 TK_4X	LITERAL1
+NORTH	LITERAL1
+SOUTH	LITERAL1
