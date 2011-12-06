@@ -32,9 +32,9 @@ void loop()
   Serial.print("\trate: ");
   Serial.print(gyro.xAxisRate());    // print the x-axis anguar rate in the range of -/+1500 °/s
   Serial.print("\t|\t Y raw: ");  
-  Serial.print(gyro.getYAxis());     // print x-axis analog value
+  Serial.print(gyro.getYAxis());     // print y-axis analog value
   Serial.print("\trate: ");
-  Serial.println(gyro.yAxisRate());  // print the x-axis anguar rate in the range of -/+1500 °/s
+  Serial.println(gyro.yAxisRate());  // print the y-axis anguar rate in the range of -/+1500 °/s
   
   delay(1000);
 }
