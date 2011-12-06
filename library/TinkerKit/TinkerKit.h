@@ -245,9 +245,9 @@ class TKHallSensor
 		inline int get() { return analogRead(_pin); }
 		boolean polarity();
 			
-		protected:
-			uint8_t _pin;
-			const static uint16_t _zeroValue = 512;
+	protected:
+		uint8_t _pin;
+		const static uint16_t _zeroValue = 512;
 };
 
 
