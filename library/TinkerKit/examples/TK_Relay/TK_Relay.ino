@@ -1,55 +1,39 @@
 /*
-  Analog input, analog output, serial output
+ Relay
 
- Reads two analog input pins; a T000030 Joystick Module Analog Sensor
- connected to I0 and I1, and uses the result to set the brightness of
- two T010111 LED Module connected on O0 and O1.
- Also prints the results to the serial monitor.
-
- created  7 dec 2010
- by Davide Gomba
- modified on Dec 2011
- by Federico Vanzati
+ Turns on and off a T010111 LED Module connected to O0,
+ when pressing a T010010 Relay attached to I0.
 
  This example code is in the public domain.
-
+ 
+ created in Dec 2011
+ by Federico Vanzati
+ 
+ This example code is in the public domain.
  */
 
 // include the TinkerKit library
 #include <TinkerKit.h>
 
-TKJoystick joystick(I0, I1);// creating the object 'joy' that belongs to the 'TKJoystick' class 
-		  	    // and giving the value to the two desired inputs pin
+TKButton btn(I0);    // creating the object 'led' that belongs to the 'TKLed' class 
+		     // and giving the value to the desired output pin
 
-TKLed led1(O0), led2(O1);   // creating the objects 'led1' and 'led2' that both belongs to the 'TKLed' class 
-		   	    // and giving to each the value to the desired output pin
-
-int xAxisValue = 0;         // value read from the Joystick's first pin
-int yAxisValue = 0;         // value read from the Joystick's second pin
-
+TKMosFet relay(O0);  // creating the object 'relay' that belongs to the 'TKRlay' class 
+                     // and giving the value to the desired output pin
 
 void setup() {
-  // initialize serial communications at 9600 bps:
-  Serial.begin(9600);
+  // TinkerKit 'object' eliminate the need for pin declaration with pinMode()
 }
 
-void loop() {
-  // read the both analog in values:
-  xAxisValue = joystick.getXAxis();  
-  yAxisValue = joystick.getYAxis();   
+void loop() 
+{
+  // check if the pushbutton is pressed
   
-  // change the analog out value:
-  led1.brightness(xAxisValue);
-  led2.brightness(yAxisValue);
-
-  // print the results to the serial monitor:
-  Serial.print("Joystick X = " );                      
-  Serial.print(xAxisValue);  
-  Serial.print("\t Joystick Y = " );                      
-  Serial.print(yAxisValue);    
-
-  // wait 10 milliseconds before the next loop
-  // for the analog-to-digital converter to settle
-  // after the last reading:
-  delay(10);                    
+  if(button.get() == HIGH) {  // if it is, the button.state() is HIGH  
+    relay.on();               // turn MosFet on 
+  }
+  else{                       // if it is not, the button.state() is LOW
+    relay.off();              // turn MosFet off
+  }
 }
+
