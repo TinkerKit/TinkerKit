@@ -41,6 +41,7 @@ getXAxis	KEYWORD2
 getYAxis	KEYWORD2
 getXAxisRate	KEYWORD2
 getYAxisRate	KEYWORD2
+calibrate	KEYWORD2
 
 #######################################
 # Constants (LITERAL1)

@@ -1,5 +1,12 @@
 
 /*
+ *      TinkerKit Library v0.1
+ *      
+ *
+ *
+ *      created on Dec 2011
+ *      by Federico Vanzati
+ *
  *      This program is free software; you can redistribute it and/or modify
  *      it under the terms of the GNU General Public License as published by
  *      the Free Software Foundation; either version 2 of the License, or
@@ -17,8 +24,6 @@
  */
 
 #include "Arduino.h"
-
-
 
 #ifndef TinkerKit_h
 #define TinkerKit_h
@@ -277,21 +282,22 @@ class TKGyro
 		TKGyro(uint8_t pinX, uint8_t pinY, boolean model);
 		inline int getXAxis() { return analogRead(_pinX); }
  		inline int getYAxis() { return analogRead(_pinY); }
-		int getXAxisRate();
-		int getYAxisRate();
+ 		void calibrate();
+		long getXAxisRate();
+		long getYAxisRate();
 		
 	protected:
 		uint8_t _pinX,_pinY;
 		boolean model;
-		int _amplification;
-		const static int _ADCresolution = 4888;	// [mV/count]	multiplierd by 1000 to avoid float numbers
+		
+		//const static int _ADCresolution = 4880;	// [mV/count]	multiplierd by 1000 to avoid float numbers
 		// minimum sensitivity for the 1x module value (from datasheet is 0.167 mV/deg/s but the TinkerKit module has the outputs amplified 2x)
-		const static int _sensitivity = 334;	// Sensitivity is expressed in mV/degree/seconds, multiplierd by 1000 to avoid float numbers. 
+		//const static int _sensitivity = 334;	// Sensitivity is expressed in mV/degree/seconds, multiplierd by 1000 to avoid float numbers. 
 															// This value represent the sensitivity of the 1x module. The sensitivity of the 4x module is 4x of this one
-		const static int _sensitivityInCount = _ADCresolution / _sensitivity;	// we obtain the sensitivity expressed in ADC counts
+	   long _sensitivityInCount;	// we obtain the sensitivity expressed in ADC counts
 																										// [counts/dps]
-		const static int _zeroVoltage = 503;	// 2.46V expressed in ADC counts
-		const static int _tollerance = 1;
+		int _yZeroVoltage;
+		int _xZeroVoltage;
 };
 
 /*

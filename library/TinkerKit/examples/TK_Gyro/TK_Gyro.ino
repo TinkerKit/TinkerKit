@@ -16,7 +16,7 @@
 
 TKGyro gyro(I0, I1, TK_X4);  // creating the object 'gyro' that belongs to the 'TKGyro' class 
                        	     // and giving the values to the desired input pins
-			     // using the 4x amplified module, insert the TK_4X costant.
+                             // using the 4x amplified module, insert the TK_4X costant.
 
 
 void setup()
@@ -28,13 +28,13 @@ void setup()
 void loop()
 {
   Serial.print("X raw: ");
-  Serial.print(gyro.getXAxis());     // print x-axis analog value
+  Serial.print(gyro.getXAxis());        // print x-axis analog value
   Serial.print("\trate: ");
-  Serial.print(gyro.xAxisRate());    // print the x-axis anguar rate in the range of -/+1500 °/s
+  Serial.print(gyro.getXAxisRate());    // print the x-axis anguar rate in the range of -/+1500 °/s
   Serial.print("\t|\t Y raw: ");  
-  Serial.print(gyro.getYAxis());     // print y-axis analog value
+  Serial.print(gyro.getYAxis());        // print x-axis analog value
   Serial.print("\trate: ");
-  Serial.println(gyro.yAxisRate());  // print the y-axis anguar rate in the range of -/+1500 °/s
+  Serial.println(gyro.getYAxisRate());  // print the x-axis anguar rate in the range of -/+1500 °/s
   
   delay(1000);
 }

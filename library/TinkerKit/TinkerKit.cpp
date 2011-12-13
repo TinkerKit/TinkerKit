@@ -172,24 +172,42 @@ TKJoystick::TKJoystick(uint8_t pinX, uint8_t pinY)
   */
 
 TKGyro::TKGyro(uint8_t pinX, uint8_t pinY, boolean model) 
- {
- 	pinX = pinX; _pinY = pinY;
+{
+ 	_pinX = pinX; _pinY = pinY;
+ 	_sensitivityInCount = 14633;  // 4.88mV / (0.167mV/dps * 2)
  	
- 	if(model)
- 		_amplification = 4;
- 	else
- 		_amplification = 1;
- }
+ 	if(model == TK_X4)
+ 		_sensitivityInCount /= 4;
+	
+  // default values 
+  _xZeroVoltage = 503;	// 2.46V expressed in ADC counts
+  _yZeroVoltage = 503;
+}
+
+void TKGyro::calibrate()
+{  
+	_xZeroVoltage = 0;	
+	_yZeroVoltage = 0;
+
+	for (uint8_t i=0; i<50; i++)
+   {
+   	_yZeroVoltage += analogRead(_pinY);
+   	_xZeroVoltage += analogRead(_pinX);
+   	delay(20);
+   }
+   _yZeroVoltage /= 50;	 
+   _xZeroVoltage /= 50;	
+}
+
+long TKGyro::getXAxisRate()
+{	
+ 	return ((long)(analogRead(_pinX) - _xZeroVoltage) * _sensitivityInCount) / 1000;
+}
  
- int TKGyro::getXAxisRate()
- {
- 	return (analogRead(_pinX) - _zeroVoltage) * _sensitivityInCount / _amplification;
- }
- 
- int TKGyro::getYAxisRate()
- {
- 	return (analogRead(_pinY) - _zeroVoltage) * _sensitivityInCount / _amplification;
- }
+long TKGyro::getYAxisRate()
+{
+	return ((long)(analogRead(_pinY) - _yZeroVoltage) * _sensitivityInCount) / 1000;
+}
  
  
  /*
