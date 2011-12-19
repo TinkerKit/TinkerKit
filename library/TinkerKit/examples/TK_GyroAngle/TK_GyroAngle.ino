@@ -34,7 +34,7 @@ int sampleTime = 10;  // The sampling period of the gyro
 int rollRate, pitchRate;  
 int prev_rollRate = 0, prev_pitchRate = 0;
 long rollAngle = 0, pitchAngle = 0;
-int rotationThreshold = 3;   //Minimum deg/sec to keep track of, helps with gyro drifting
+int rotationThreshold = 2;   //Minimum deg/sec to keep track of, helps with gyro drifting
 
 int pos = 0;    // variable to store the servo position
 
@@ -57,7 +57,7 @@ void setup()
 
 void loop()
 {
-  // Every 20 ms take a sample from the gyro
+  // Every 10 ms take a sample from the gyro
   if(millis() - time > sampleTime)
   {
     time = millis();  // update the time to get the next sample

@@ -34,7 +34,7 @@ void loop(){
 
   // check if the tilt Sensor  is tilted.
 
-  if (tilt.state() == HIGH) {   // if it is, the tilt.state() is HIGH
+  if (tilt.get() == HIGH) {   // if it is, the tilt.state() is HIGH
     led.on();                	// turn LED on
   } 
   else {                   	// if it is not, the tilt.state() is LOW

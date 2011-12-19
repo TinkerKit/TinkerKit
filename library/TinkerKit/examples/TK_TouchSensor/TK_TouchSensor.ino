@@ -28,7 +28,7 @@ void loop()
 {
   // check if the touch sensor is pressed.
   // if it is, the touch.state() is HIGH:
-  if (touch.state() == HIGH) {      
+  if (touch.get() == HIGH) {      
     led.on();     // turn LED on 
   } else {
     led.off();    // turn LED off
