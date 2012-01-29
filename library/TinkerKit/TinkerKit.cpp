@@ -214,5 +214,18 @@ long TKGyro::getYAxisRate()
   * Accelerometer Class and Methods
   */
   
-TKAccelerometer::TKAccelerometer(uint8_t pinX, uint8_t pinY) { pinX = pinX; _pinY = pinY; }
+TKAccelerometer::TKAccelerometer(uint8_t pinX, uint8_t pinY) { _pinX = pinX; _pinY = pinY; }
 
+int TKAccelerometer::inclination()
+{
+	int xVal = analogRead(_pinX) - _zeroOffset;
+	int yVal = analogRead(_pinY) - _zeroOffset;
+	
+	if(xVal <= 96 && yVal <= 96)
+	{
+		int inclination = atan2(xVal, yVal)*180/M_PI;
+		return (int) inclination;
+	} else {
+		return NULL;
+	}
+}

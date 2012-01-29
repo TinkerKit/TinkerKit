@@ -310,9 +310,14 @@ class TKAccelerometer
 		TKAccelerometer(uint8_t pinX, uint8_t pinY);
 		inline int getXAxis() { return analogRead(_pinX); }
  		inline int getYAxis() { return analogRead(_pinY); }
+ 		inline float getXinG() { return (float)(analogRead(_pinX) - _zeroOffset)/96; }
+ 		inline float getYinG() { return (float)(analogRead(_pinY) - _zeroOffset)/96; }
+ 		int inclination();
 		
 	protected:
 		uint8_t _pinX, _pinY;
+		const static float _gain = 1.414;
+		const static int _zeroOffset = 478;
 };
 
 #endif
