@@ -143,7 +143,7 @@ class TKLed
 	protected:
 		uint8_t _pin;
 		boolean _state;
-};	
+};
 
 /*
  * Potentiometer Class and Methods
