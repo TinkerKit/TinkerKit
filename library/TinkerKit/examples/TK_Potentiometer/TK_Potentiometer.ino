@@ -34,18 +34,18 @@ void setup() {
 
 void loop() {
   // read the analog in value:
-  brightnessValue = pot.get();            
+  brightnessValue = pot.read();
 
   // set the led brightness
-  led.brightness(brightnessValue);       
+  led.brightness(brightnessValue);
 
   // print the results to the serial monitor:
-  Serial.print("brightness = " );                      
-  Serial.println(brightnessValue);      
+  Serial.print("brightness = " );
+  Serial.println(brightnessValue);
 
 
   // wait 10 milliseconds before the next loop
   // for the analog-to-digital converter to settle
-  // after the last reading:
-  delay(10);                    
+  // after the last reading
+  delay(10);
 }

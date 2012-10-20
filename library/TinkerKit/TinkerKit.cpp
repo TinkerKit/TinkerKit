@@ -5,17 +5,15 @@
  * Buttons Class and Methods
  */  
 
-TKButton::TKButton(uint8_t pin)
+TKButton::TKButton(uint8_t pin) : _TKDigitalInput(pin)
 {
-	_pin = pin;
-	pinMode(_pin, INPUT);
 	_toggleState = LOW;
 	_oldState = LOW;
 }
 
 boolean TKButton::toggle()
 {
-	boolean currentState = TKButton::get();
+	boolean currentState = TKButton::read();
 	
 	if( (currentState == HIGH) && (_oldState == LOW) )	
 		_toggleState = !_toggleState;
@@ -26,7 +24,7 @@ boolean TKButton::toggle()
 
 boolean TKButton::pressed()
 {
-	boolean currentState = TKButton::get();
+	boolean currentState = TKButton::read();
 	
 	if(currentState == HIGH && _oldState == LOW)
 	{
@@ -40,7 +38,7 @@ boolean TKButton::pressed()
 
 boolean TKButton::released()
 {
-	boolean currentState = TKButton::get();
+	boolean currentState = TKButton::read();
 	
 	if(currentState == LOW && _oldState == HIGH)
 	{
@@ -55,29 +53,46 @@ boolean TKButton::released()
 boolean TKButton::held()
 {	
 	if(released() == LOW && _oldState == HIGH)
-		return true;		
+		return true;
 	else
 		return false;
 }
-	
+
+
+_TKDigitalInput::_TKDigitalInput(uint8_t pin) {
+  _pin = pin;
+	pinMode(_pin, INPUT);
+}
+
+uint8_t _TKDigitalInput::read() {
+  return digitalRead(_pin);
+}
+
+_TKAnalogInput::_TKAnalogInput(uint8_t pin) {
+  _pin = pin;
+}
+
+int _TKAnalogInput::read() {
+  return analogRead(_pin);
+}
 	
 /*
  * Tilt Sensor Class and Methods
  */  
-  
-TKTiltSensor::TKTiltSensor(uint8_t pin) { _pin = pin; pinMode(_pin, INPUT); } 
+
+TKTiltSensor::TKTiltSensor(uint8_t pin) : _TKDigitalInput(pin) {}
 
 
 /*
  * Touch Sensor Class and Methods
- */  
-  
- TKTouchSensor::TKTouchSensor(uint8_t pin) : TKButton(pin) {} 
-  
-  
+ */
+
+TKTouchSensor::TKTouchSensor(uint8_t pin) : TKButton(pin) {}
+
+
 /*
  * Leds Class and Methods
- */  
+ */
 
 TKLed::TKLed(uint8_t pin)
 { 
@@ -91,33 +106,33 @@ TKLed::TKLed(uint8_t pin)
  * Potentiometer Class and Methods
  */
   
-TKPotentiometer::TKPotentiometer(uint8_t pin) { _pin = pin; }
+TKPotentiometer::TKPotentiometer(uint8_t pin) : _TKAnalogInput(pin) {}
 
- 
+
 /*
  * LightSensor Class and Methods
  */
 
-TKLightSensor::TKLightSensor(uint8_t pin) { _pin = pin; }
+TKLightSensor::TKLightSensor(uint8_t pin) : _TKAnalogInput(pin) {}
 
 
 /*
  * Thermistor Class and Methods
  */
   
-TKThermistor::TKThermistor(uint8_t pin) { _pin = pin; }
+TKThermistor::TKThermistor(uint8_t pin) : _TKAnalogInput(pin) {}
 
-float TKThermistor::getCelsius()
+float TKThermistor::readCelsius()
 {
-	float Rthermistor = Rb * (ADCres / TKThermistor::get() - 1);
+	float Rthermistor = Rb * (ADCres / TKThermistor::read() - 1);
 	float _temperatureC = Beta / (log( Rthermistor * Ginf )) ;
 		
 	return _temperatureC - Kelvin;
 }
 
-float TKThermistor::getFahrenheit()
+float TKThermistor::readFahrenheit()
 {
-	float _temperatureF = (TKThermistor::getCelsius() * 9.0)/ 5.0 + 32.0; ;
+	float _temperatureF = (TKThermistor::readCelsius() * 9.0)/ 5.0 + 32.0; ;
 	
 	return _temperatureF;
 }
@@ -126,7 +141,7 @@ float TKThermistor::getFahrenheit()
 /*
  * MosFet Class and Methods
  */
-  
+
 TKMosFet::TKMosFet(uint8_t pin)
 { 
 	_pin = pin; 
@@ -138,7 +153,7 @@ TKMosFet::TKMosFet(uint8_t pin)
 /*
  * Relay Class and Methods
  */
-  
+
 TKRelay::TKRelay(uint8_t pin) { _pin = pin; pinMode(_pin, OUTPUT);}
 
 
@@ -160,7 +175,7 @@ boolean TKHallSensor::polarity()
  /*
   * Joystick Class and Methods
   */
-  
+
 TKJoystick::TKJoystick(uint8_t pinX, uint8_t pinY)
 {
 	_pinX = pinX; _pinY = pinY;
@@ -177,7 +192,7 @@ TKGyro::TKGyro(uint8_t pinX, uint8_t pinY, boolean model)
  	_sensitivityInCount = 14633;  // 4.88mV / (0.167mV/dps * 2)
  	
  	if(model == TK_X4)
- 		_sensitivityInCount /= 4;
+    _sensitivityInCount /= 4;
 	
   // default values 
   _xZeroVoltage = 503;	// 2.46V expressed in ADC counts
@@ -195,8 +210,8 @@ void TKGyro::calibrate()
    	_xZeroVoltage += analogRead(_pinX);
    	delay(20);
    }
-   _yZeroVoltage /= 50;	 
-   _xZeroVoltage /= 50;	
+   _yZeroVoltage /= 50;
+   _xZeroVoltage /= 50;
 }
 
 long TKGyro::getXAxisRate()

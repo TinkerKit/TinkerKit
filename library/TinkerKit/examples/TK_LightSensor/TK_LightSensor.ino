@@ -34,7 +34,7 @@ void setup() {
 
 void loop() {
   // read the analog in value:
-  brightnessValue = ldr.get();            
+  brightnessValue = ldr.read();            
 
   // set the led brightness
   led.brightness(brightnessValue);       

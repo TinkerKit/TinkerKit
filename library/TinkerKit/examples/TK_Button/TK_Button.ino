@@ -30,7 +30,7 @@ void loop()
 {
   // check if the pushbutton is pressed
   
-  if (button.get() == HIGH) {	// if it is, the button.state() is HIGH  
+  if (button.read() == HIGH) {	// if it is, the button.state() is HIGH  
     led.on();			// turn LED on 
   } 
   else {			// if it is not, the button.state() is LOW 

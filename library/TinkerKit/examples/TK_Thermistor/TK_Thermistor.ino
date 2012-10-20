@@ -19,7 +19,7 @@ This example code is in the public domain.
 TKThermistor therm(I0);       // creating the object 'therm' that belongs to the 'TKThermistor' class 
                               // and giving the value to the desired output pin
 
-float C, F;		      // temperature readings are returned in float format
+float C, F;     // temperature readings are returned in float format
 
 void setup()
 {
@@ -29,12 +29,12 @@ void setup()
 
 void loop()
 {
-  C = therm.getCelsius();     	// Reading the temperature in Celsius degrees and store in the C variable
-  F = therm.getFahrenheit();  	// Reading the temperature in Fahrenheit degrees and store in the F variable
+  C = therm.readCelsius();     	// Reading the temperature in Celsius degrees and store in the C variable
+  F = therm.readFahrenheit();  	// Reading the temperature in Fahrenheit degrees and store in the F variable
 
   // Print the collected data in a row on the Serial Monitor
   Serial.print("Analog reading: \t");	// Reading the analog value from the thermistor
-  Serial.print(therm.get());
+  Serial.print(therm.read());
   Serial.print("\tC: \t");
   Serial.print(C);
   Serial.print("\tF: \t");

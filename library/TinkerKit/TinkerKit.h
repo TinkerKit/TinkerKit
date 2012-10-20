@@ -6,6 +6,8 @@
  *
  *      created on Dec 2011
  *      by Federico Vanzati
+ *      modified October 2012
+ *      by Fabio Varesano
  *
  *      This program is free software; you can redistribute it and/or modify
  *      it under the terms of the GNU General Public License as published by
@@ -29,6 +31,8 @@
 #define TinkerKit_h
 
 
+// Mappings between standard Arduino pin naming and ThinkerKit Sensor Shields I/O ports naming.
+
 // Minimum Analog In/Out that each platform have
 #define I0 A0
 #define I1 A1
@@ -44,7 +48,7 @@
 #define O4 5
 #define O5 3
 
-// Mega have more I/O
+// Mega has more I/O
 #if defined(__AVR_ATmega2560__) || defined(__AVR_ATmega1280__)
 #define I6 A6
 #define I7 A7
@@ -74,14 +78,52 @@
 
 
 /*
+ * Simple digital input class. To be extended by other modules accessing to Analog Pins
+*/
+class _TKDigitalInput {
+  public:
+    uint8_t read();
+  protected:
+    _TKDigitalInput(uint8_t pin);
+  private:
+    uint8_t _pin;
+};
+
+
+/*
+ * Simple analog input class. To be extended by other modules accessing to Analog Pins
+*/
+class _TKAnalogInput {
+  public:
+    int read();
+  protected:
+    _TKAnalogInput(uint8_t pin);
+  private:
+    uint8_t _pin;
+};
+
+
+/*
+ * Simple digital output class. To be extended by other modules accessing to Digital Pins
+*/
+class _TKDigitalOutput {
+  public:
+    void write();
+  protected:
+    _TKDigitalOutput(uint8_t pin);
+  private:
+    uint8_t _pin;
+};
+
+
+/*
  * Buttons Class and Methods
  */
-  
-class TKButton
+
+class TKButton : public _TKDigitalInput
 {
 	public:
 		TKButton(uint8_t pin);
-		inline boolean get() { return digitalRead(_pin); }
 		boolean toggle();
 		boolean pressed();
 		boolean held();
@@ -92,26 +134,21 @@ class TKButton
 		boolean _toggleState, _oldState;
 };
 
-
 /*
  * Tilt Sensor Class and Methods
  */
- 
-class TKTiltSensor
+
+class TKTiltSensor : public _TKDigitalInput
 {
 	public:
 		TKTiltSensor(uint8_t pin);
-		inline boolean get() { return digitalRead(_pin); }
-	
-	protected:
-		uint8_t _pin;
 };
 
 
 /*
  * Touch Sensor Class and Methods
- */  
- 
+ */
+
 
 class TKTouchSensor : public TKButton
 {
@@ -149,14 +186,10 @@ class TKLed
  * Potentiometer Class and Methods
  */
  
-class TKPotentiometer
+class TKPotentiometer: public _TKAnalogInput
 {
 	public:
-		TKPotentiometer(uint8_t pin);
-		inline int get() { return analogRead(_pin); }
-		
-	protected:
-		uint8_t _pin;
+    TKPotentiometer(uint8_t pin);
 };
 
 
@@ -164,38 +197,32 @@ class TKPotentiometer
  * LightSensor Class and Methods
  */
 
-class TKLightSensor
+class TKLightSensor: public _TKAnalogInput
 {
-	public:
-		TKLightSensor(uint8_t pin);
-		inline int get() { return analogRead(_pin); }
-		
-	protected:
-		uint8_t _pin;
+  public:
+    TKLightSensor(uint8_t pin);
 };
 
 /*
  * Thermistor Class and Methods
  */
- 
-class TKThermistor 
+
+class TKThermistor: public _TKAnalogInput
 {
 	public:
 		TKThermistor(uint8_t pin);
-		inline int get() { return analogRead(_pin); }
-		float getCelsius();
-		float getFahrenheit();
+		float readCelsius();
+		float readFahrenheit();
 		
 	protected:
-		uint8_t _pin;
 		const static float ADCres = 1023.0;
 		const static int Beta = 3950;			// Beta parameter
 		const static float Kelvin = 273.15;	// 0°C = 273.15 K
 		const static int Rb = 10000;			// 10 kOhm
 		const static float Ginf = 120.6685;	// Ginf = 1/Rinf
 														// Rinf = R0*e^(-Beta/T0) = 4700*e^(-3950/298.15)
-};	
-		
+};
+
 /*
  * MosFet Class and Methods
  */
