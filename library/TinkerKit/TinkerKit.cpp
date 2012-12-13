@@ -19,7 +19,7 @@ void TKButton::update() {
   boolean newState = TKButton::get();
   if (newState != _oldState) {
     // pressed?
-    if (_newState == HIGH) {
+    if (newState == HIGH) {
       _pressedState = true;
     }
     else {
