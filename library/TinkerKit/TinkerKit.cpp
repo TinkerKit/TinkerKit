@@ -11,27 +11,40 @@ TKButton::TKButton(uint8_t pin)
 	pinMode(_pin, INPUT);
 	_toggleState = LOW;
 	_oldState = LOW;
+	_pressedState = LOW;
+	_releasedState = LOW;
 }
+
+void TKButton::update() {
+  boolean newState = TKButton::get();
+  if (newState != _oldState) {
+    // pressed?
+    if (_newState == HIGH) {
+      _pressedState = true;
+    }
+    else {
+      _releasedState = true;
+      _toggleState = !_toggleState;
+    }
+    _oldState = newState;
+    delay(50); // debouncing
+  }
+}
+
 
 boolean TKButton::toggle()
 {
-	boolean currentState = TKButton::get();
-	
-	if( (currentState == HIGH) && (_oldState == LOW) )	
-		_toggleState = !_toggleState;
-	_oldState = currentState;
-	
+	TKButton::update();
 	return _toggleState;
 }
 
 boolean TKButton::pressed()
 {
-	boolean currentState = TKButton::get();
+	TKButton::update();
 	
-	if(currentState == HIGH && _oldState == LOW)
+	if(_pressedState == true)
 	{
-		_oldState = currentState;
-		delay(50);
+		_pressedState = false;
 		return true;
 	}		
 	else
@@ -40,21 +53,21 @@ boolean TKButton::pressed()
 
 boolean TKButton::released()
 {
-	boolean currentState = TKButton::get();
+	TKButton::update();
 	
-	if(currentState == LOW && _oldState == HIGH)
+	if(_releasedState == true)
 	{
-		_oldState = currentState;
-		delay(50);
-		return true;		
-	}
+		_releasedState = false;
+		return true;
+	}		
 	else
 		return false;
 }
 
 boolean TKButton::held()
 {	
-	if(released() == LOW && _oldState == HIGH)
+	TKButton::update();
+	if(_releasedState == false && _oldState == HIGH)
 		return true;		
 	else
 		return false;

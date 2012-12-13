@@ -90,6 +90,9 @@ class TKButton
 	protected:
 		uint8_t _pin;
 		boolean _toggleState, _oldState;
+		boolean _pressedState, _releasedState;
+		
+		void update();
 };
 
 
