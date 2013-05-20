@@ -90,6 +90,10 @@ class TKButton
 	protected:
 		uint8_t _pin;
 		boolean _toggleState, _oldState;
+		boolean _pressedState, _releasedState;
+		boolean _heldState;
+		
+		void update();
 };
 
 
@@ -321,5 +325,4 @@ class TKAccelerometer
 };
 
 #endif
-
 

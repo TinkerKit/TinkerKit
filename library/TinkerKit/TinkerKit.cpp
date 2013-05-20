@@ -11,27 +11,53 @@ TKButton::TKButton(uint8_t pin)
 	pinMode(_pin, INPUT);
 	_toggleState = LOW;
 	_oldState = LOW;
+	_pressedState = LOW;
+	_releasedState = LOW;
+	_heldState = LOW;
 }
+
+void TKButton::update() {
+  boolean newState = TKButton::get();
+  if (newState != _oldState) {
+    // pressed?
+    if (newState == HIGH) {
+      _pressedState = true;      
+    }
+    else {
+      _releasedState = true;
+     _toggleState = !_toggleState;	  
+    }
+    
+    _oldState = newState;
+    delay(50); // debouncing
+  } 
+
+  else {
+
+  	if(newState == HIGH && _oldState == HIGH) {
+  		_heldState = true;
+  	} else {
+  		_heldState = false;
+  	}
+
+  	
+  }
+}
+
 
 boolean TKButton::toggle()
 {
-	boolean currentState = TKButton::get();
-	
-	if( (currentState == HIGH) && (_oldState == LOW) )	
-		_toggleState = !_toggleState;
-	_oldState = currentState;
-	
+	TKButton::update();
 	return _toggleState;
 }
 
 boolean TKButton::pressed()
 {
-	boolean currentState = TKButton::get();
-	
-	if(currentState == HIGH && _oldState == LOW)
+	TKButton::update();
+
+	if(_pressedState == true)
 	{
-		_oldState = currentState;
-		delay(50);
+		_pressedState = false;
 		return true;
 	}		
 	else
@@ -40,27 +66,24 @@ boolean TKButton::pressed()
 
 boolean TKButton::released()
 {
-	boolean currentState = TKButton::get();
-	
-	if(currentState == LOW && _oldState == HIGH)
+	TKButton::update();
+
+	if(_releasedState == true)
 	{
-		_oldState = currentState;
-		delay(50);
-		return true;		
-	}
+		_releasedState = false;
+		return true;
+	}		
 	else
 		return false;
 }
 
 boolean TKButton::held()
 {	
-	if(released() == LOW && _oldState == HIGH)
-		return true;		
-	else
-		return false;
+	TKButton::update();
+	return _heldState;
 }
-	
-	
+
+
 /*
  * Tilt Sensor Class and Methods
  */  
@@ -111,14 +134,14 @@ float TKThermistor::getCelsius()
 {
 	float Rthermistor = Rb * (ADCres / TKThermistor::get() - 1);
 	float _temperatureC = Beta / (log( Rthermistor * Ginf )) ;
-		
+
 	return _temperatureC - Kelvin;
 }
 
 float TKThermistor::getFahrenheit()
 {
 	float _temperatureF = (TKThermistor::getCelsius() * 9.0)/ 5.0 + 32.0; ;
-	
+
 	return _temperatureF;
 }
 
@@ -178,7 +201,7 @@ TKGyro::TKGyro(uint8_t pinX, uint8_t pinY, boolean model)
  	
  	if(model == TK_X4)
  		_sensitivityInCount /= 4;
-	
+
   // default values 
   _xZeroVoltage = 503;	// 2.46V expressed in ADC counts
   _yZeroVoltage = 503;
@@ -220,7 +243,7 @@ int TKAccelerometer::inclination()
 {
 	int xVal = analogRead(_pinX) - _zeroOffset;
 	int yVal = analogRead(_pinY) - _zeroOffset;
-	
+
 	if(xVal <= 96 && yVal <= 96)
 	{
 		int inclination = atan2(xVal, yVal)*180/M_PI;
