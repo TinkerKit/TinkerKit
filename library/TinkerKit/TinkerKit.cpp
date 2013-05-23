@@ -114,7 +114,24 @@ TKLed::TKLed(uint8_t pin)
  * Potentiometer Class and Methods
  */
   
-TKPotentiometer::TKPotentiometer(uint8_t pin) { _pin = pin; }
+TKPotentiometer::TKPotentiometer(uint8_t pin) { 
+	_pin = pin; 
+	_minVal = 1023;
+	_maxVal = 0;
+}
+
+int TKPotentiometer::get() 
+{	
+	int val = analogRead(_pin);
+
+	if (val < _minVal) {_minVal = val;}
+	if (val > _maxVal) {_maxVal = val;}
+
+	_mappedVal = map(val, _minVal, _maxVal, 0, 1023);
+	_mappedVal = constrain(_mappedVal, 0, 1023);
+	
+	return _mappedVal;
+}
 
  
 /*

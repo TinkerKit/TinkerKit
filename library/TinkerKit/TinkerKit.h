@@ -157,10 +157,12 @@ class TKPotentiometer
 {
 	public:
 		TKPotentiometer(uint8_t pin);
-		inline int get() { return analogRead(_pin); }
+		int get();
 		
 	protected:
 		uint8_t _pin;
+		int _minVal, _maxVal;
+		int _mappedVal;
 };
 
 
