@@ -158,11 +158,13 @@ class TKPotentiometer
 	public:
 		TKPotentiometer(uint8_t pin);
 		int get();
+		int getSection(int sections);
 		
 	protected:
 		uint8_t _pin;
 		int _minVal, _maxVal;
 		int _mappedVal;
+		int _sections;
 };
 
 

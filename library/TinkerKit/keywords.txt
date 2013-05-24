@@ -13,7 +13,7 @@ TKPotentiometer	KEYWORD1
 TKThermistor	KEYWORD1
 TKLightSensor	KEYWORD1
 TKMosFet	KEYWORD1
-TKRelay		KEYWORD1
+TKRelay	KEYWORD1
 TKJoystick	KEYWORD1
 TKHallSensor	KEYWORD1
 TKGyro	KEYWORD1 
@@ -43,6 +43,7 @@ getXAxisRate	KEYWORD2
 getYAxisRate	KEYWORD2
 calibrate	KEYWORD2
 inclination	KEYWORD2
+getSection	KEYWORD2
 
 #######################################
 # Constants (LITERAL1)

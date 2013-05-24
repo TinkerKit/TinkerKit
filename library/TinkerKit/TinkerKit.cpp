@@ -133,6 +133,15 @@ int TKPotentiometer::get()
 	return _mappedVal;
 }
 
+int TKPotentiometer::getSection(int sections) {
+	
+	_sections = sections;
+
+	int section  = floor(map(get(), 0, 1023, 0, _sections));
+	
+	return section;		
+}
+
  
 /*
  * LightSensor Class and Methods
