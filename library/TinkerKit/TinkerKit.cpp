@@ -133,13 +133,13 @@ int TKPotentiometer::get()
 	return _mappedVal;
 }
 
-int TKPotentiometer::getSection(int sections) {
+int TKPotentiometer::getStep(int steps) {
 	
-	_sections = sections;
+	_steps = steps;
 
-	int section  = floor(map(get(), 0, 1023, 0, _sections));
+	int step  = floor(map(get(), 0, 1023, 0, _steps));
 	
-	return section;		
+	return step;		
 }
 
  

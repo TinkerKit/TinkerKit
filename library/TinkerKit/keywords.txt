@@ -43,7 +43,7 @@ getXAxisRate	KEYWORD2
 getYAxisRate	KEYWORD2
 calibrate	KEYWORD2
 inclination	KEYWORD2
-getSection	KEYWORD2
+getStep	KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
