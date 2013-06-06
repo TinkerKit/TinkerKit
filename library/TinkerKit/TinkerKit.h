@@ -76,7 +76,7 @@ class TKDigital
 {
 public:
     TKDigital(uint8_t _pin);
-    inline boolean get() { return digitalRead(pin); }
+    boolean get();
     
 protected:
     uint8_t pin;

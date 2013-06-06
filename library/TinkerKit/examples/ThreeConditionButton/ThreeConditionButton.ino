@@ -15,6 +15,7 @@ void loop()
     Serial.println("The button is held"); 
   if(btn.released())
     Serial.println("The button is released"); 
+  delay(10);  
 }
 
 
