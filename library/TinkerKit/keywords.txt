@@ -31,7 +31,7 @@ off	KEYWORD2
 blink	KEYWORD2
 getCelsius	KEYWORD2
 getFahrenheit	KEYWORD2
-toggle	KEYWORD2
+getSwitch	KEYWORD2
 pressed	KEYWORD2
 held	KEYWORD2
 released	KEYWORD2
@@ -42,8 +42,10 @@ getYAxis	KEYWORD2
 getXAxisRate	KEYWORD2
 getYAxisRate	KEYWORD2
 calibrate	KEYWORD2
-inclination	KEYWORD2
 getStep	KEYWORD2
+inclination	KEYWORD2
+polarity	KEYWORD2
+
 
 #######################################
 # Constants (LITERAL1)
@@ -73,8 +75,11 @@ D7	LITERAL1
 D4	LITERAL1
 D2	LITERAL1
 
+8	LITERAL1
+9	LITERAL1
+
 TK_MAX	LITERAL1
-TK_1X	LITERAL1
-TK_4X	LITERAL1
+TK_X1	LITERAL1
+TK_X4	LITERAL1
 NORTH	LITERAL1
 SOUTH	LITERAL1

@@ -68,27 +68,78 @@
 
 /* 
 -----------------------------------------------------------------------------
-                        TinkerKit modules Classes
+                                Generic Classes
 -----------------------------------------------------------------------------
 */
 
+class TKDigital
+{
+public:
+    TKDigital(uint8_t _pin);
+    inline boolean get() { return digitalRead(pin); }
+    
+protected:
+    uint8_t pin;
+};
+
+
+class TKAnalog
+{
+public:
+    TKAnalog(uint8_t _pin);
+    int get();
+    
+protected:
+    uint8_t pin;
+};
+
+class TKAnalog2
+{
+public:
+    TKAnalog2(uint8_t _pinX, uint8_t _pinY);
+    int getXAxis();
+    int getYAxis();
+    
+protected:
+    uint8_t pinX, pinY;
+};
+
+
+class TKOutput
+{
+    public:
+    TKOutput (uint8_t _pin);
+    void set(int value);
+    inline int state() { return _state; }
+    inline void on() { set(HIGH); }
+    inline void off() { set(LOW); }
+    
+protected:
+    uint8_t pin;
+    int _state;
+
+
+};
 
 /*
- * Buttons Class and Methods
- */
+ -----------------------------------------------------------------------------
+                                Digital Inputs
+ -----------------------------------------------------------------------------
+*/
+
+
+/*      Button      */
   
-class TKButton
+class TKButton: public TKDigital
 {
 	public:
-		TKButton(uint8_t pin);
-		inline boolean get() { return digitalRead(_pin); }
-		boolean toggle();
+		TKButton(uint8_t _pin);
+		boolean getSwitch();
 		boolean pressed();
 		boolean held();
 		boolean released();
 		
 	protected:
-		uint8_t _pin;
 		boolean _toggleState, _oldState;
 		boolean _pressedState, _releasedState;
 		boolean _heldState;
@@ -97,236 +148,161 @@ class TKButton
 };
 
 
-/*
- * Tilt Sensor Class and Methods
- */
+/*      Tilt Sensor     */
  
-class TKTiltSensor
+class TKTiltSensor: public TKDigital
 {
 	public:
 		TKTiltSensor(uint8_t pin);
-		inline boolean get() { return digitalRead(_pin); }
-	
-	protected:
-		uint8_t _pin;
 };
 
-
-/*
- * Touch Sensor Class and Methods
- */  
- 
+/*      Touch Sensor        */
 
 class TKTouchSensor : public TKButton
 {
 	public:
-		TKTouchSensor(uint8_t pin);
+		TKTouchSensor(uint8_t _pin);
+};
+
+/*
+ -----------------------------------------------------------------------------
+                                Analog Inputs
+ -----------------------------------------------------------------------------
+ */
+
+/*      Potentiometer        */
+
+class TKPotentiometer: public TKAnalog
+{
+public:
+    TKPotentiometer(uint8_t pin);
+    int get();
+    int getStep(int steps);
+    
+protected:
+    int _minVal, _maxVal;
+    int _mappedVal;
+    int _steps;
 };
 
 
+/*      Light Sensor        */
+
+class TKLightSensor : public TKAnalog
+{
+    public:
+        TKLightSensor(uint8_t _pin);
+};
+
+/*      Temperature Sensor        */
+
+class TKThermistor : public TKAnalog
+{
+public:
+    TKThermistor(uint8_t _pin);
+    float getCelsius();
+    float getFahrenheit();
+    
+protected:
+    const static float ADCres = 1023.0;
+    const static int Beta = 3950;			// Beta parameter
+    const static float Kelvin = 273.15;	// 0°C = 273.15 K
+    const static int Rb = 10000;			// 10 kOhm
+    const static float Ginf = 120.6685;	// Ginf = 1/Rinf
+    // Rinf = R0*e^(-Beta/T0) = 4700*e^(-3950/298.15)
+};
+
+/*      Hall Sensor        */
+
+class TKHallSensor : public TKAnalog
+{
+public:
+    TKHallSensor(uint8_t _pin);
+    boolean polarity();
+    
+protected:
+    const static uint16_t _zeroValue = 512;
+};
+
+
+/*      Joystick        */
+
+class TKJoystick : public TKAnalog2
+{
+public:
+    TKJoystick(uint8_t _pinX, uint8_t _pinY);
+};
+
+
+/*      Gyro Sensor        */
+
+class TKGyro : public TKAnalog2
+{
+public:
+    TKGyro(uint8_t _pinX, uint8_t _pinY, boolean model);
+    void calibrate();
+    long getXAxisRate();
+    long getYAxisRate();
+    
+protected:
+    boolean model;
+    
+    //const static int _ADCresolution = 4880;	// [mV/count]	multiplierd by 1000 to avoid float numbers
+    // minimum sensitivity for the 1x module value (from datasheet is 0.167 mV/deg/s but the TinkerKit module has the outputs amplified 2x)
+    //const static int _sensitivity = 334;	// Sensitivity is expressed in mV/degree/seconds, multiplierd by 1000 to avoid float numbers.
+    // This value represent the sensitivity of the 1x module. The sensitivity of the 4x module is 4x of this one
+    long _sensitivityInCount;	// we obtain the sensitivity expressed in ADC counts
+    // [counts/dps]
+    int _yZeroVoltage;
+    int _xZeroVoltage;
+};
+
+/*      Accelerometer        */
+
+class TKAccelerometer : public TKAnalog2
+{
+public:
+    TKAccelerometer(uint8_t _pinX, uint8_t _pinY);
+    inline float getXinG() { return (float)(getXAxis() - _zeroOffset)/96; }
+    inline float getYinG() { return (float)(getYAxis() - _zeroOffset)/96; }
+    int inclination();
+    
+protected:
+    const static float _gain = 1.414;
+    const static int _zeroOffset = 478;
+};
+
 /*
- * Leds Class and Methods
- */ 
+ -----------------------------------------------------------------------------
+                                    Outputs
+ -----------------------------------------------------------------------------
+ */
+
+/*      LED     */
  
-class TKLed 
+class TKLed : public TKOutput
 {
 	public: 
-		TKLed(uint8_t pin);
-		inline void set(boolean value) { digitalWrite(_pin, value); _state = value; }
-		inline boolean state() { return _state; }
-		inline void on() { TKLed::set(HIGH); }
-		inline void off() { TKLed::set(LOW); }
-		inline void brightness(int value) 
-		{ 
-			if( value <= TK_MAX && value >= 0)
-				analogWrite(_pin, value/4);
-			else
-				return;
-		}
+        TKLed(uint8_t _pin);
+        inline void brightness(int value) { set(value); }
+};
 		
-	protected:
-		uint8_t _pin;
-		boolean _state;
-};	
-
-/*
- * Potentiometer Class and Methods
- */
+/*      MosFet      */
  
-class TKPotentiometer
+class TKMosFet : public TKOutput
 {
 	public:
-		TKPotentiometer(uint8_t pin);
-		int get();
-		int getStep(int steps);
-		
-	protected:
-		uint8_t _pin;
-		int _minVal, _maxVal;
-		int _mappedVal;
-		int _steps;
+		TKMosFet(uint8_t _pin);
 };
 
-
-/*
- * LightSensor Class and Methods
- */
-
-class TKLightSensor
+/*      Relay       */
+ 
+class TKRelay : public TKOutput
 {
 	public:
-		TKLightSensor(uint8_t pin);
-		inline int get() { return analogRead(_pin); }
-		
-	protected:
-		uint8_t _pin;
+		TKRelay(uint8_t _pin);
 };
 
-/*
- * Thermistor Class and Methods
- */
- 
-class TKThermistor 
-{
-	public:
-		TKThermistor(uint8_t pin);
-		inline int get() { return analogRead(_pin); }
-		float getCelsius();
-		float getFahrenheit();
-		
-	protected:
-		uint8_t _pin;
-		const static float ADCres = 1023.0;
-		const static int Beta = 3950;			// Beta parameter
-		const static float Kelvin = 273.15;	// 0°C = 273.15 K
-		const static int Rb = 10000;			// 10 kOhm
-		const static float Ginf = 120.6685;	// Ginf = 1/Rinf
-														// Rinf = R0*e^(-Beta/T0) = 4700*e^(-3950/298.15)
-};	
-		
-/*
- * MosFet Class and Methods
- */
- 
-class TKMosFet 
-{
-	public:
-		TKMosFet(uint8_t pin);
-		inline void set(boolean value) { digitalWrite(_pin, value); _state = value; }
-		inline boolean state() { return _state; }
-		inline void on() { TKMosFet::set(HIGH); }
-		inline void off() { TKMosFet::set(LOW); }
-		inline void set(int value) 
-		{ 
-			if( value <= TK_MAX && value >= 0 )
-				analogWrite(_pin, value/4);
-			else
-				return;
-		}
-
-	protected:
-		uint8_t _pin;
-		boolean _state;
-};
-
-/*
- * Relay Class and Methods
- */
- 
-class TKRelay
-{
-	public:
-		TKRelay(uint8_t pin);
-		inline void set(boolean value) { digitalWrite(_pin, value); _state = value; }
-		inline boolean state() { return _state; }
-		inline void on() { TKRelay::set(HIGH); }
-		inline void off() { TKRelay::set(LOW); }
-
-	protected:
-		uint8_t _pin;	
-		boolean _state;
-};
-
-/*
- * Hall Sensor Class and Methods
- */
-
-class TKHallSensor
-{
-	public:
-		TKHallSensor(uint8_t pin);
-		inline int get() { return analogRead(_pin); }
-		boolean polarity();
-			
-	protected:
-		uint8_t _pin;
-		const static uint16_t _zeroValue = 512;
-};
-
-
-/*
- * Joystick Class and Methods
- */
- 
- class TKJoystick
- {
- 	public:
- 		TKJoystick(uint8_t pinX, uint8_t pinY);
- 		inline int getXAxis() { return analogRead(_pinX); }
- 		inline int getYAxis() { return analogRead(_pinY); }
- 		 		
- 	protected:
- 		uint8_t _pinX, _pinY;
- };
- 
- 
-/*
- * Gyro Sensor Class and Methods
- */
-
-class TKGyro
-{	
-	public:
-		TKGyro(uint8_t pinX, uint8_t pinY, boolean model);
-		inline int getXAxis() { return analogRead(_pinX); }
- 		inline int getYAxis() { return analogRead(_pinY); }
- 		void calibrate();
-		long getXAxisRate();
-		long getYAxisRate();
-		
-	protected:
-		uint8_t _pinX,_pinY;
-		boolean model;
-		
-		//const static int _ADCresolution = 4880;	// [mV/count]	multiplierd by 1000 to avoid float numbers
-		// minimum sensitivity for the 1x module value (from datasheet is 0.167 mV/deg/s but the TinkerKit module has the outputs amplified 2x)
-		//const static int _sensitivity = 334;	// Sensitivity is expressed in mV/degree/seconds, multiplierd by 1000 to avoid float numbers. 
-															// This value represent the sensitivity of the 1x module. The sensitivity of the 4x module is 4x of this one
-	   long _sensitivityInCount;	// we obtain the sensitivity expressed in ADC counts
-																										// [counts/dps]
-		int _yZeroVoltage;
-		int _xZeroVoltage;
-};
-
-/*
- * Accelerometer Class and Methods
- */
- 
-class TKAccelerometer
-{	
-	public:
-		TKAccelerometer(uint8_t pinX, uint8_t pinY);
-		inline int getXAxis() { return analogRead(_pinX); }
- 		inline int getYAxis() { return analogRead(_pinY); }
- 		inline float getXinG() { return (float)(analogRead(_pinX) - _zeroOffset)/96; }
- 		inline float getYinG() { return (float)(analogRead(_pinY) - _zeroOffset)/96; }
- 		int inclination();
-		
-	protected:
-		uint8_t _pinX, _pinY;
-		const static float _gain = 1.414;
-		const static int _zeroOffset = 478;
-};
 
 #endif
 
