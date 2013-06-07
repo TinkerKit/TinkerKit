@@ -143,6 +143,8 @@ class TKButton: public TKDigital
 		boolean _toggleState, _oldState;
 		boolean _pressedState, _releasedState;
 		boolean _heldState;
+        int _heldTime;
+        int _millisMark;
 		
 		void update();
 };

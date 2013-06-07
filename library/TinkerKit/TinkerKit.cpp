@@ -8,7 +8,7 @@
  -----------------------------------------------------------------------------
                                     Generals
  -----------------------------------------------------------------------------
- */
+*/
 
 /*      Digital Input       */
 
@@ -120,6 +120,7 @@ TKButton::TKButton(uint8_t _pin) : TKDigital(_pin)
 	_pressedState = LOW;
 	_releasedState = LOW;
 	_heldState = LOW;
+    _heldTime = 500;
 }
 
 void TKButton::update() {
@@ -139,8 +140,10 @@ void TKButton::update() {
   } 
 
   else {
-
-  	if(newState == HIGH && _oldState == HIGH) {
+      
+      int timeDiff = millis() - _millisMark;
+      
+      if(newState == HIGH && _oldState == HIGH && timeDiff > _heldTime) {
   		_heldState = true;
   	} else {
   		_heldState = false;
@@ -163,6 +166,7 @@ boolean TKButton::pressed()
 
 	if(_pressedState == true)
 	{
+        _millisMark = millis();
 		_pressedState = false;
 		return true;
 	}		
@@ -192,10 +196,7 @@ boolean TKButton::held()
 
 /*      Tilt Sensor         */
   
-TKTiltSensor::TKTiltSensor(uint8_t _pin) : TKDigital (_pin)
-{
-}
-
+TKTiltSensor::TKTiltSensor(uint8_t _pin) : TKDigital (_pin){}
 
 /*      Touch Sensor        */
   
