@@ -76,7 +76,7 @@ class TKDigital
 {
 public:
     TKDigital(uint8_t _pin);
-    boolean get();
+    boolean read();
     
 protected:
     uint8_t pin;
@@ -87,7 +87,7 @@ class TKAnalog
 {
 public:
     TKAnalog(uint8_t _pin);
-    int get();
+    int read();
     
 protected:
     uint8_t pin;
@@ -97,8 +97,8 @@ class TKAnalog2
 {
 public:
     TKAnalog2(uint8_t _pinX, uint8_t _pinY);
-    int getXAxis();
-    int getYAxis();
+    int readX();
+    int readY();
     
 protected:
     uint8_t pinX, pinY;
@@ -109,10 +109,10 @@ class TKOutput
 {
     public:
     TKOutput (uint8_t _pin);
-    void set(int value);
+    void write(int value);
     inline int state() { return _state; }
-    inline void on() { set(HIGH); }
-    inline void off() { set(LOW); }
+    inline void on() { write(HIGH); }
+    inline void off() { write(LOW); }
     
 protected:
     uint8_t pin;
@@ -134,7 +134,7 @@ class TKButton: public TKDigital
 {
 	public:
 		TKButton(uint8_t _pin);
-		boolean getSwitch();
+		boolean readSwitch();
 		boolean pressed();
 		boolean held();
 		boolean released();
@@ -178,8 +178,8 @@ class TKPotentiometer: public TKAnalog
 {
 public:
     TKPotentiometer(uint8_t pin);
-    int get();
-    int getStep(int steps);
+    int read();
+    int readStep(int steps);
     
 protected:
     int _minVal, _maxVal;
@@ -202,8 +202,8 @@ class TKThermistor : public TKAnalog
 {
 public:
     TKThermistor(uint8_t _pin);
-    float getCelsius();
-    float getFahrenheit();
+    float readCelsius();
+    float readFahrenheit();
     
 protected:
     const static float ADCres = 1023.0;
@@ -243,8 +243,8 @@ class TKGyro : public TKAnalog2
 public:
     TKGyro(uint8_t _pinX, uint8_t _pinY, boolean model);
     void calibrate();
-    long getXAxisRate();
-    long getYAxisRate();
+    long readXAxisRate();
+    long readYAxisRate();
     
 protected:
     boolean model;
@@ -265,8 +265,8 @@ class TKAccelerometer : public TKAnalog2
 {
 public:
     TKAccelerometer(uint8_t _pinX, uint8_t _pinY);
-    inline float getXinG() { return (float)(getXAxis() - _zeroOffset)/96; }
-    inline float getYinG() { return (float)(getYAxis() - _zeroOffset)/96; }
+    inline float readXinG() { return (float)(readX() - _zeroOffset)/96; }
+    inline float readYinG() { return (float)(readY() - _zeroOffset)/96; }
     int inclination();
     
 protected:
@@ -286,7 +286,7 @@ class TKLed : public TKOutput
 {
 	public: 
         TKLed(uint8_t _pin);
-        inline void brightness(int value) { set(value); }
+        inline void brightness(int value) { write(value); }
 };
 		
 /*      MosFet      */

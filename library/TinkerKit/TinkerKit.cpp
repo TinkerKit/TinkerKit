@@ -18,7 +18,7 @@ TKDigital::TKDigital(uint8_t _pin)
     pinMode(pin, INPUT);
 }
 
-boolean TKDigital::get() {
+boolean TKDigital::read() {
     
     boolean val;
     
@@ -43,7 +43,7 @@ TKAnalog::TKAnalog(uint8_t _pin)
     pin = _pin;
 }
 
-int TKAnalog::get() {
+int TKAnalog::read() {
 
     int val;
     
@@ -64,7 +64,7 @@ TKAnalog2::TKAnalog2(uint8_t _pinX, uint8_t _pinY)
     pinY = _pinY;
 }
 
-int TKAnalog2::getXAxis() {
+int TKAnalog2::readX() {
     
     int val;
     
@@ -77,7 +77,7 @@ int TKAnalog2::getXAxis() {
     return val;
 }
 
-int TKAnalog2::getYAxis() {
+int TKAnalog2::readY() {
     
     int val;
     
@@ -97,7 +97,7 @@ TKOutput::TKOutput(uint8_t _pin)
 	pinMode(pin, OUTPUT);
 }
 
-void TKOutput::set(int value)
+void TKOutput::write(int value)
 {
     if( value <= TK_MAX && value >= 0 )
         analogWrite(pin, value * 0.25);
@@ -124,7 +124,7 @@ TKButton::TKButton(uint8_t _pin) : TKDigital(_pin)
 }
 
 void TKButton::update() {
-  boolean newState = TKButton::get();
+  boolean newState = TKButton::read();
   if (newState != _oldState) {
     // pressed?
     if (newState == HIGH) {
@@ -154,7 +154,7 @@ void TKButton::update() {
 }
 
 
-boolean TKButton::getSwitch()
+boolean TKButton::readSwitch()
 {
 	TKButton::update();
 	return _toggleState;
@@ -218,10 +218,10 @@ TKPotentiometer::TKPotentiometer(uint8_t _pin) : TKAnalog(_pin)
 	_maxVal = 0;
 }
 
-int TKPotentiometer::get()
+int TKPotentiometer::read()
 {
 
-    int val = TKAnalog::get();
+    int val = TKAnalog::read();
 
 	if (val < _minVal) {_minVal = val;}
 	if (val > _maxVal) {_maxVal = val;}
@@ -232,11 +232,11 @@ int TKPotentiometer::get()
 	return _mappedVal;
 }
 
-int TKPotentiometer::getStep(int steps) {
+int TKPotentiometer::readStep(int steps) {
 	
 	_steps = steps;
 
-	int step  = floor(map(get(), 0, 1023, 0, _steps));
+	int step  = floor(map(read(), 0, 1023, 0, _steps));
 	
 	return step;		
 }
@@ -250,17 +250,17 @@ TKLightSensor::TKLightSensor(uint8_t _pin) : TKAnalog(_pin){}
   
 TKThermistor::TKThermistor(uint8_t _pin) : TKAnalog(_pin) {}
 
-float TKThermistor::getCelsius()
+float TKThermistor::readCelsius()
 {
-	float Rthermistor = Rb * (ADCres / TKThermistor::get() - 1);
+	float Rthermistor = Rb * (ADCres / TKThermistor::read() - 1);
 	float _temperatureC = Beta / (log( Rthermistor * Ginf )) ;
 
 	return _temperatureC - Kelvin;
 }
 
-float TKThermistor::getFahrenheit()
+float TKThermistor::readFahrenheit()
 {
-	float _temperatureF = (TKThermistor::getCelsius() * 9.0)/ 5.0 + 32.0; ;
+	float _temperatureF = (TKThermistor::readCelsius() * 9.0)/ 5.0 + 32.0; ;
 
 	return _temperatureF;
 }
@@ -272,7 +272,7 @@ TKHallSensor::TKHallSensor(uint8_t _pin) : TKAnalog(_pin) {}
 
 boolean TKHallSensor::polarity()
 { 
-	int value = get();
+	int value = read();
 	if( value >= _zeroValue  )
 		return NORTH;
 	else
@@ -306,22 +306,22 @@ void TKGyro::calibrate()
 
 	for (uint8_t i=0; i<50; i++)
    {
-   	_yZeroVoltage += getYAxis();
-   	_xZeroVoltage += getXAxis();
+   	_yZeroVoltage += readY();
+   	_xZeroVoltage += readX();
    	delay(20);
    }
    _yZeroVoltage /= 50;	 
    _xZeroVoltage /= 50;	
 }
 
-long TKGyro::getXAxisRate()
+long TKGyro::readXAxisRate()
 {	
- 	return ((long)(getXAxis() - _xZeroVoltage) * _sensitivityInCount) / 1000;
+ 	return ((long)(readX() - _xZeroVoltage) * _sensitivityInCount) / 1000;
 }
  
-long TKGyro::getYAxisRate()
+long TKGyro::readYAxisRate()
 {
-	return ((long)(getYAxis() - _yZeroVoltage) * _sensitivityInCount) / 1000;
+	return ((long)(readY() - _yZeroVoltage) * _sensitivityInCount) / 1000;
 }
  
  
@@ -333,8 +333,8 @@ TKAccelerometer::TKAccelerometer(uint8_t _pinX, uint8_t _pinY) : TKAnalog2(_pinX
 
 int TKAccelerometer::inclination()
 {
-	int xVal = getXAxis() - _zeroOffset;
-	int yVal = getYAxis() - _zeroOffset;
+	int xVal = readX() - _zeroOffset;
+	int yVal = readY() - _zeroOffset;
 
 	if(xVal <= 96 && yVal <= 96)
 	{

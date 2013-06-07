@@ -24,25 +24,25 @@ TKAccelerometer	KEYWORD1
 #######################################	
 
 state	KEYWORD2
-set	KEYWORD2
-get	KEYWORD2
+write	KEYWORD2
+read	KEYWORD2
 on	KEYWORD2
 off	KEYWORD2
 blink	KEYWORD2
-getCelsius	KEYWORD2
-getFahrenheit	KEYWORD2
-getSwitch	KEYWORD2
+readCelsius	KEYWORD2
+readFahrenheit	KEYWORD2
+readSwitch	KEYWORD2
 pressed	KEYWORD2
 held	KEYWORD2
 released	KEYWORD2
 brightness	KEYWORD2
 fade	KEYWORD2
-getXAxis	KEYWORD2
-getYAxis	KEYWORD2
-getXAxisRate	KEYWORD2
-getYAxisRate	KEYWORD2
+readX	KEYWORD2
+readY	KEYWORD2
+readXAxisRate	KEYWORD2
+readYAxisRate	KEYWORD2
 calibrate	KEYWORD2
-getStep	KEYWORD2
+readStep	KEYWORD2
 inclination	KEYWORD2
 polarity	KEYWORD2
 
