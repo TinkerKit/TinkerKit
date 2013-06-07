@@ -1,9 +1,8 @@
 /*
- Analog input, analog output, serial output
-
- Reads an analog input pin, and T000090 LDR Analog Sensor connected to I0, 
- and uses the result to set the brightness on a T010111 LED Module connected on O0.
- Also prints the results to the serial monitor.
+ Read values from the T000090 LDR Analog Sensor connected to I0, 
+ then uses the result to set the brightness on a T010111 LED 
+ Module connected on O0. Also prints the values on the 
+ serial monitor.
 
  created 29 Dec. 2008
  Modified 4 Sep 2010
@@ -12,20 +11,17 @@
  by Davide Gomba
  modified on Ded 2011
  by Federico Vanzati
+ modified Jun 2013
+ by Matteo Loglio<http://matlo.me>
 
  This example code is in the public domain.
-
  */
 
 #include <TinkerKit.h>
 
-TKLightSensor ldr(I0);	// creating the object 'button' that belongs to the 'TKButton' class 
-                        // and giving the value to the desired input pin
+TKLightSensor ldr(I0);	//create the "ldr" object on port I0
 
-TKLed led(O0);		// creating the object 'led' that belongs to the 'TKLed' class 
-                        // and giving the value to the desired output pin
-
-int brightnessValue = 0;        // value read from the pot
+TKLed led(O0);		//create the "led" object on port O0
 
 void setup() {
   // initialize serial communications at 9600 bps
@@ -33,19 +29,21 @@ void setup() {
 }
 
 void loop() {
-  // read the analog in value:
-  brightnessValue = ldr.get();            
+  // store the ldr values into a variable called brightnessVal
+  int brightnessVal = ldr.read();            
 
   // set the led brightness
-  led.brightness(brightnessValue);       
+  led.brightness(brightnessVal);       
+  
+  //to have it at full brightness
+  //when it's dark, uncomment this line:
+  //led.brightness(1023 - brightnessVal);
 
   // print the results to the serial monitor:
   Serial.print("brightness = " );                      
-  Serial.println(brightnessValue);      
+  Serial.println(brightnessVal);      
 
 
   // wait 10 milliseconds before the next loop
-  // for the analog-to-digital converter to settle
-  // after the last reading:
   delay(10);                    
 }

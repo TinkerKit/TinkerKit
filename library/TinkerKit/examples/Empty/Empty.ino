@@ -1,17 +1,9 @@
-//include TinkerKit library
 #include <TinkerKit.h>
 
-//after this line declare the modules you're using.
-
-
 void setup() {
-
-  //write here the setup code
-  
+  //Serial.begin(9600);
 }
 
-void loop() {
-  
-  //write here the main code 
+void loop() {  
   
 }

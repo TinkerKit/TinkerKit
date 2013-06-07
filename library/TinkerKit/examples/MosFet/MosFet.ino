@@ -1,39 +1,31 @@
 /*
- MosFet
-
- Turns on and off a T010111 LED Module connected to O0,
- when pressing a T010020 MosFet attached to I0.
-
- This example code is in the public domain.
+Write the output of a MosFet Module using a 
+Potentiometer Module.
+http://www.tinkerkit.com/linear-pot/
+http://www.tinkerkit.com/mosfet/
  
- created in Dec 2011
- by Federico Vanzati
+Jun 13 - matteo loglio <http://matlo.me>
  
- This example code is in the public domain.
- */
+This example code is in the public domain.
+*/
 
 // include the TinkerKit library
 #include <TinkerKit.h>
-
-TKButton btn(I0);  // creating the object 'led' that belongs to the 'TKLed' class 
-		   // and giving the value to the desired output pin
-
-TKMosFet mos(O0);  // creating the object 'mos' that belongs to the 'TKMosFet' class 
-                   // and giving the value to the desired output pin
-
+ 
+TKMosFet mos(O0);         //create the mos object
+TKPotentiometer pot(I0);  //create the pot object
+ 
 void setup() {
-  // TinkerKit 'object' eliminate the need for pin declaration with pinMode()
+  //nothing here
 }
-
+ 
 void loop() 
 {
-  // check if the pushbutton is pressed
+  int val = pot.read(); //assign to a "val" variable
+                        //the potentiometer values
+
+  mos.write(val);       //assign the values to the mosfet
   
-  if(button.get() == HIGH) {  // if it is, the button.state() is HIGH  
-    mos.on();                 // turn MosFet on 
-  }
-  else{                       // if it is not, the button.state() is LOW
-    mos.off();                // turn MosFet off
-  }
+  delay(10);            //rest for 10 milliseconds.
 }
 

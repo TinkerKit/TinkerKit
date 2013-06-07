@@ -1,20 +1,21 @@
 /* TinkerKit! Gyroscope [T000062-64]
- *
- * This sketch shows how to read this 2-axis gyroscope,
- * turning in a given angular velocity and then converting it
- * in the simplest way in an angular position (/inclination).
- *
- * Connect: the X-axis to the Analog Input Pin 0 (I0)
- *          the Y-axis to the Analog Input Pin 1 (I1)
- * Optional: connect a servo to Analog Output Pin 9 (O2)
- *
- * created by Federico Vanzati / f.vanzati@arduino.cc
- * in Dec 2011
- *
- * inspired from www.arduino.cc/playground/Main/Gyro
- * by eric barch / ericbarch.com
- *
- * This example code is in the public domain.
+   http://www.tinkerkit.com/gyroscope-4x/
+   
+  This sketch shows how to read this 2-axis gyroscope,
+  turning in a given angular velocity and then converting it
+  in the simplest way in an angular position (/inclination).
+ 
+  Connect: the X-axis to the I0 port
+           the Y-axis to the I1 port
+  Optional: connect a servo to O2 port
+ 
+  created by Federico Vanzati / f.vanzati@arduino.cc
+  in Dec 2011
+ 
+  inspired from www.arduino.cc/playground/Main/Gyro
+  by eric barch / ericbarch.com
+ 
+  This example code is in the public domain.
  */
 
 #include <Servo.h>
@@ -49,7 +50,7 @@ void setup()
   Serial.println("Calibration...");
   gyro.calibrate();
 
-  Serial.print("TinkerKit! Gyroscope [T000062-64] Test Example\n\n");
+  Serial.print("TinkerKit! Gyroscope Test Example\n\n");
 
   time = millis();
 }
@@ -63,8 +64,8 @@ void loop()
     time = millis();  // update the time to get the next sample
 
     // get the gyro's angular velocity 
-    rollRate  = gyro.getYAxisRate();  // by calling the getXAxisRate() method
-    pitchRate = gyro.getXAxisRate();  // and the getYAxisRate() method
+    rollRate  = gyro.readYAxisRate();  // by calling the readXAxisRate() method
+    pitchRate = gyro.readXAxisRate();  // and the readYAxisRate() method
 
 
     // Integrate the angular veloity to obtain angular position (or inclination)

@@ -1,12 +1,13 @@
 /*
- Accelerometer
-
  Reads two analog input pins; a T000020 Accelerometer Module with the x-axis connected to I0 pin
  the y-axis connected to the I1 pin, uses the result to set the brightness of two T010111 LED Module 
  connected on O0 and O1. Also prints the results to the serial monitor.
-
+ http://www.tinkerkit.com/accelerometer/
+ 
  created on Dec 2011
  by Federico Vanzati
+ modified in Jun 2013 
+ by Matteo Loglio
 
  This example code is in the public domain.
 
@@ -21,8 +22,8 @@ TKAccelerometer accelerometer(I0, I1);  // creating the object 'accelerometer' t
 TKLed xLed(O0), yLed(O1);     		// creating the objects 'xLed' & 'yLed' that both belongs to the 'TKLed' class 
                               		// and giving the values to the desired output pins
 
-int xAxisValue = 0;           // value read from the accelerometer's x-axis 
-int yAxisValue = 0;           // value read from the accelerometer's y-axis
+int xAxisValue = 0;           // a variable to store theaccelerometer's x value
+int yAxisValue = 0;           // a variable to store theaccelerometer's y value
 
 void setup() 
 {
@@ -33,8 +34,8 @@ void setup()
 void loop()
 {
   // read the both joystick axis values:
-  xAxisValue = accelerometer.getXAxis();  
-  yAxisValue = accelerometer.getYAxis(); 
+  xAxisValue = accelerometer.readX();  
+  yAxisValue = accelerometer.readY(); 
 
   // set the leds brightness
   xLed.brightness(xAxisValue);
@@ -48,8 +49,6 @@ void loop()
 
 
   // wait 10 milliseconds before the next loop
-  // for the analog-to-digital converter to settle
-  // after the last reading:
   delay(10);    
 }
 

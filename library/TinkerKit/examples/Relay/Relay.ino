@@ -1,13 +1,17 @@
 /*
  Relay
 
- Turns on and off a T010111 LED Module connected to O0,
- when pressing a T010010 Relay attached to I0.
+ Turns on and off a Relay Module connected to O0,
+ when pressing a Button Module attached to I0.
+ http://www.tinkerkit.com/button/
+ http://www.tinkerkit.com/relay/
 
  This example code is in the public domain.
  
  created in Dec 2011
  by Federico Vanzati
+ modified in Jun 2013
+ by Matteo Loglio<http://matlo.me>
  
  This example code is in the public domain.
  */
@@ -27,9 +31,8 @@ void setup() {
 
 void loop() 
 {
-  // check if the pushbutton is pressed
-  
-  if(button.get() == HIGH) {  // if it is, the button.state() is HIGH  
+  // check the switch state
+  if(btn.readSwitch() == HIGH) {  // if it is, the button.state() is HIGH  
     relay.on();               // turn MosFet on 
   }
   else{                       // if it is not, the button.state() is LOW

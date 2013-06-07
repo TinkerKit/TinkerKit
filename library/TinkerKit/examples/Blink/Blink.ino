@@ -2,6 +2,7 @@
   based on Blink, Arduino's "Hello World!"
   Turns on an LED on for one second, then off for one second, repeatedly.
   The Tinkerkit Led Modules (T010110-7) is hooked up on O0
+  http://www.tinkerkit.com/led-red-10mm/
 
   created in Dec 2011
   by Federico Vanzati
@@ -16,7 +17,7 @@ TKLed led(O0);	// creating the object 'led' that belongs to the 'TKLed' class
 		// and giving the value to the desired output pin
 
 void setup() {
-// TinkerKit 'object' eliminate the need for pin declaration with pinMode()
+//nothing here
 }
 
 void loop() 

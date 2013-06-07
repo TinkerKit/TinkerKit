@@ -3,9 +3,14 @@
 
  Turns on and off a T010111 LED Module connected to O0,
  when pressing a T000220 Touch Sensor attached to I0.
+ 
+ http://www.tinkerkit.com/led-green-10mm/
+ http://www.tinkerkit.com/touch/
 
- created in Dec 2011
- by Federico Vanzati
+ · created in Dec 2011
+   by Federico Vanzati
+ · modified in Jun 2013 
+   by Matteo Loglio <http://matlo.me>
 
  This example code is in the public domain.
  */
@@ -26,9 +31,9 @@ void setup() {
 
 void loop()
 {
-  // check if the touch sensor is pressed.
-  // if it is, the touch.state() is HIGH:
-  if (touch.get() == HIGH) {      
+  // check the "switch state" of the sensor
+  // if it is, turns on the LED
+  if (touch.readSwitch() == HIGH) {      
     led.on();     // turn LED on 
   } else {
     led.off();    // turn LED off

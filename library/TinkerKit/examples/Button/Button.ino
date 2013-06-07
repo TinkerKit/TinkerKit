@@ -1,13 +1,15 @@
 /*
- Button
-
  Turns on and off a T010111 LED Module connected to O0,
- when pressing a T000180 pushbutton attached to I0.
+ when pressing a T000180 Button Module attached to I0.
+ http://www.tinkerkit.com/button/
+ http://www.tinkerkit.com/led-green-10mm/
 
  This example code is in the public domain.
 
  created in Dec 2011
  by Federico Vanzati
+ modified in Jun 2013
+ by Matteo Loglio<http://matlo.me>
 
  based on  http://www.arduino.cc/en/Tutorial/Button
  */
@@ -23,17 +25,16 @@ TKLed led(O0);		// creating the object 'led' that belongs to the 'TKLed' class
 
 
 void setup() {
-// TinkerKit 'object' eliminate the need for pin declaration with pinMode()
+//nothing here
 }
 
 void loop()
 {
-  // check if the pushbutton is pressed
-  
-  if (button.get() == HIGH) {	// if it is, the button.state() is HIGH  
-    led.on();			// turn LED on 
+  // check the switchState of the button
+  if (button.readSwitch() == HIGH) {	  
+    led.on();			 
   } 
-  else {			// if it is not, the button.state() is LOW 
-    led.off();			// turn LED off
+  else {			
+    led.off();			
   }
 }

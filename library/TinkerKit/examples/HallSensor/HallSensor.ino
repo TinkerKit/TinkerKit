@@ -1,18 +1,16 @@
 /*
- Hall Sensor
-
- The Hall Sensor [T000070] is connected to I0 and reacts
- to the magnetic field polarity changing its analog output.
- When there is no magnetic field the sensor read a value around 512,
- going to the north pole cause an increasing of the value while going to 
- south cause a decreasing of the value.
- Uses the result to light up a T010111 LED Module connected on O0.
- Also prints the value of the Hall Sensor to the serial monitor.
-
+ The Hall Sensor [T000070] is connected to I0 and it's
+ able to detect the magnetic field polarity.
+ This sketch turns on and off an LED using 
+ the polarity of a magnet
+ http://www.tinkerkit.com/hall/ 
+  
  created on 7 Dec 2010
  by Davide Gomba 
  modified on Dec 2011
  by Federico Vanzati
+ modified on Jun 2013
+ by Matteo Loglio
 
  This example code is in the public domain.
  */
@@ -36,7 +34,7 @@ void loop()
 {
   // Read the analog value of the Hall Sensor and print on the serial monitor
   Serial.print("Hall Sensor Value = ");                      
-  Serial.println( hs.get() );
+  Serial.println(hs.read());
 
   // with polarity() we can know if the magnetic field 
   // is going to NORTH or SOUTH without read the analog value
@@ -47,9 +45,7 @@ void loop()
     led.off();
   }
 
-  // wait 10 milliseconds before the next loop
-  // for the analog-to-digital converter to settle
-  // after the last reading:
+  // wait 10 milliseconds before the next loop:
   delay(10);  
 }
 
