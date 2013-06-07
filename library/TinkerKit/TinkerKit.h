@@ -111,8 +111,10 @@ class TKOutput
     TKOutput (uint8_t _pin);
     void write(int value);
     inline int state() { return _state; }
-    inline void on() { write(HIGH); }
-    inline void off() { write(LOW); }
+    inline void on() { write(1023); }
+    inline void off() { write(0); }
+    void blink(int delay);
+    void blink(int delay1, int delay2);
     
 protected:
     uint8_t pin;
@@ -233,6 +235,11 @@ class TKJoystick : public TKAnalog2
 {
 public:
     TKJoystick(uint8_t _pinX, uint8_t _pinY);
+    int readX();
+    int readY();
+protected:
+    int _minVal, _maxVal;
+    int _mappedVal;
 };
 
 

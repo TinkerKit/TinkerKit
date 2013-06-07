@@ -90,6 +90,8 @@ int TKAnalog2::readY() {
     return val;
 }
 
+/*      Output       */
+
 TKOutput::TKOutput(uint8_t _pin)
 {
     pin = _pin;
@@ -103,6 +105,22 @@ void TKOutput::write(int value)
         analogWrite(pin, value * 0.25);
     else
         return;
+}
+
+void TKOutput::blink(int del)
+{
+    on();
+    delay(del);
+    off();
+    delay(del);
+}
+
+void TKOutput::blink(int del1, int del2)
+{
+    on();
+    delay(del1);
+    off();
+    delay(del2);
 }
 
 /*
@@ -282,6 +300,34 @@ boolean TKHallSensor::polarity()
 /*      Joystick        */
   
 TKJoystick::TKJoystick(uint8_t _pinX, uint8_t _pinY) : TKAnalog2 (_pinX, _pinY){}
+
+int TKJoystick::readX()
+{
+    
+    int val = TKAnalog2::readX();
+    
+	if (val < _minVal) {_minVal = val;}
+	if (val > _maxVal) {_maxVal = val;}
+    
+	_mappedVal = map(val, _minVal, _maxVal, 0, 1023);
+	_mappedVal = constrain(_mappedVal, 0, 1023);
+	
+	return _mappedVal;
+}
+
+int TKJoystick::readY()
+{
+    
+    int val = TKAnalog2::readY();
+    
+	if (val < _minVal) {_minVal = val;}
+	if (val > _maxVal) {_maxVal = val;}
+    
+	_mappedVal = map(val, _minVal, _maxVal, 0, 1023);
+	_mappedVal = constrain(_mappedVal, 0, 1023);
+	
+	return _mappedVal;
+}
 
 
 /*      Gyro        */
