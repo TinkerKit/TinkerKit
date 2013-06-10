@@ -18,6 +18,10 @@ TKJoystick	KEYWORD1
 TKHallSensor	KEYWORD1
 TKGyro	KEYWORD1 
 TKAccelerometer	KEYWORD1
+TKAnalog	KEYWORD1
+TKAnalog2	KEYWORD1
+TKDigital	KEYWORD1
+TKOutput	KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)

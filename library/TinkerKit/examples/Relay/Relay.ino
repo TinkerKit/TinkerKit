@@ -32,11 +32,11 @@ void setup() {
 void loop() 
 {
   // check the switch state
-  if(btn.readSwitch() == HIGH) {  // if it is, the button.state() is HIGH  
-    relay.on();               // turn MosFet on 
+  if(btn.readSwitch() == HIGH) {  
+    relay.on();  
   }
-  else{                       // if it is not, the button.state() is LOW
-    relay.off();              // turn MosFet off
+  else{                       
+    relay.off();  
   }
 }
 
