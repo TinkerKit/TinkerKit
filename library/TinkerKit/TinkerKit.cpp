@@ -30,8 +30,8 @@ boolean TKDigital::read() {
             val = 1;
     #else
         val = digitalRead(pin);
-    #endif
-    
+    #endif                
+
     return val;
 }
 
@@ -51,9 +51,33 @@ int TKAnalog::read() {
         val = Esplora.readTK(pin);
     #else
         val = analogRead(pin);
-    #endif
-    
-    return val;
+    #endif          
+
+    if (val > _oldVal)
+    {
+      _increasing = true;
+      _decreasing = false;
+    }
+
+    if (val < _oldVal)
+    {
+      _increasing = false;
+      _decreasing = true;
+    }
+
+    _oldVal = val;
+       
+    return val;    
+}
+
+boolean TKAnalog::increasing() {
+    TKAnalog::read();
+    return _increasing;
+}
+
+boolean TKAnalog::decreasing() {
+    TKAnalog::read();
+    return _decreasing;
 }
 
 /*      Analog Input with two connectors       */

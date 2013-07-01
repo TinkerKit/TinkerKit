@@ -49,6 +49,8 @@ calibrate	KEYWORD2
 readStep	KEYWORD2
 inclination	KEYWORD2
 polarity	KEYWORD2
+increasing	KEYWORD2
+decreasing	KEYWORD2
 
 
 #######################################
