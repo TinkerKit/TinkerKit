@@ -88,6 +88,13 @@ TKAnalog2::TKAnalog2(uint8_t _pinX, uint8_t _pinY)
     pinY = _pinY;
 }
 
+TKAnalog2::TKAnalog2(uint8_t _pinX, uint8_t _pinY, uint8_t _pinZ)
+{
+    pinX = _pinX;
+    pinY = _pinY;
+    pinZ = _pinZ;
+}
+
 int TKAnalog2::readX() {
     
     int val;
@@ -109,6 +116,19 @@ int TKAnalog2::readY() {
         val = Esplora.readTK(pinY);
     #else
         val = analogRead(pinY);
+    #endif
+    
+    return val;
+}
+
+int TKAnalog2::readZ() {
+    
+    int val;
+    
+    #if USB_VID == 0x2341 && USB_PID == 0x803C
+        val = Esplora.readTK(pinZ);
+    #else
+        val = analogRead(pinZ);
     #endif
     
     return val;
@@ -400,6 +420,7 @@ long TKGyro::readYAxisRate()
   */
   
 TKAccelerometer::TKAccelerometer(uint8_t _pinX, uint8_t _pinY) : TKAnalog2(_pinX,_pinY){}
+TKAccelerometer::TKAccelerometer(uint8_t _pinX, uint8_t _pinY, uint8_t _pinZ) : TKAnalog2(_pinX,_pinY,_pinZ){}
 
 int TKAccelerometer::inclination()
 {

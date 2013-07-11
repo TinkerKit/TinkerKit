@@ -102,11 +102,13 @@ class TKAnalog2
 {
 public:
     TKAnalog2(uint8_t _pinX, uint8_t _pinY);
+    TKAnalog2(uint8_t _pinX, uint8_t _pinY, uint8_t _pinZ);
     int readX();
     int readY();
+    int readZ();
     
 protected:
-    uint8_t pinX, pinY;
+    uint8_t pinX, pinY, pinZ;
 };
 
 
@@ -277,8 +279,10 @@ class TKAccelerometer : public TKAnalog2
 {
 public:
     TKAccelerometer(uint8_t _pinX, uint8_t _pinY);
+    TKAccelerometer(uint8_t _pinX, uint8_t _pinY, uint8_t _pinZ);
     inline float readXinG() { return (float)(readX() - _zeroOffset)/96; }
     inline float readYinG() { return (float)(readY() - _zeroOffset)/96; }
+    inline float readZinG() { return (float)(readZ() - _zeroOffset)/96; }
     int inclination();
     
 protected:

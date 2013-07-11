@@ -6,7 +6,7 @@
  
  created on Dec 2011
  by Federico Vanzati
- modified in Jun 2013 
+ modified in Jul 2013 
  by Matteo Loglio
 
  This example code is in the public domain.
@@ -17,10 +17,15 @@
 #include <TinkerKit.h>
 
 TKAccelerometer accelerometer(I0, I1);  // creating the object 'accelerometer' that belongs to the 'TKAccelerometer' class 
-                       	      		// and giving the values to the desired input pins
+                                  // and giving the values to the desired input pins
 
-TKLed xLed(O0), yLed(O1);     		// creating the objects 'xLed' & 'yLed' that both belongs to the 'TKLed' class 
-                              		// and giving the values to the desired output pins
+//TKAccelerometer accelerometer(I0, I1, I2); //if you connected also the Z axis, you
+                                             //can declare it with three pins and use
+                                             //functions like readZ() and readZinG().
+                       
+
+TKLed xLed(O0), yLed(O1);         // creating the objects 'xLed' & 'yLed' that both belongs to the 'TKLed' class 
+                                  // and giving the values to the desired output pins
 
 int xAxisValue = 0;           // a variable to store theaccelerometer's x value
 int yAxisValue = 0;           // a variable to store theaccelerometer's y value
@@ -51,4 +56,3 @@ void loop()
   // wait 10 milliseconds before the next loop
   delay(10);    
 }
-
