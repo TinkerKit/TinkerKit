@@ -118,16 +118,20 @@ class TKOutput
     TKOutput (uint8_t _pin);
     void write(int value);
     inline int state() { return _state; }
-    inline void on() { write(1023); }
-    inline void off() { write(0); }
+    void on() { 
+        write(1023); 
+        _state = HIGH; 
+    }
+    void off() { 
+        write(0); 
+        _state = LOW; 
+    }
     void blink(int delay);
     void blink(int delay1, int delay2);
     
 protected:
     uint8_t pin;
     int _state;
-
-
 };
 
 /*
