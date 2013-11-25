@@ -47,7 +47,7 @@ void loop()
   Serial.print("Joystick X = " );                       
   Serial.print(x);   
   Serial.print("\t Joystick Y = " );                       
-  Serial.print(y);     
+  Serial.println(y);     
 
   // wait 10 milliseconds before the next loop
   delay(10);    
