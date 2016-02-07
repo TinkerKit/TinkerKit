@@ -219,11 +219,11 @@ public:
     float readFahrenheit();
     
 protected:
-    const static float ADCres = 1023.0;
+    const static float ADCres;
     const static int Beta = 3950;			// Beta parameter
-    const static float Kelvin = 273.15;	// 0°C = 273.15 K
+    const static float Kelvin;
     const static int Rb = 10000;			// 10 kOhm
-    const static float Ginf = 120.6685;	// Ginf = 1/Rinf
+    const static float Ginf;
     // Rinf = R0*e^(-Beta/T0) = 4700*e^(-3950/298.15)    
 };
 
@@ -290,7 +290,7 @@ public:
     int inclination();
     
 protected:
-    const static float _gain = 1.414;
+    const static float _gain;
     const static int _zeroOffset = 478;
 };
 
