@@ -4,6 +4,11 @@
 #include <Esplora.h>
 #endif
 
+const float TKThermistor::ADCres = 1023.0;
+const float TKThermistor::Kelvin = 273.15; // 0°C = 273.15 K
+const float TKThermistor::Ginf = 120.6685; // Ginf = 1/Rinf
+const float TKAccelerometer::_gain = 1.414;
+
 /*
  -----------------------------------------------------------------------------
                                     Generals
