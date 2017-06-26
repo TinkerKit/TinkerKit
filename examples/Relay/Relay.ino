@@ -19,10 +19,10 @@
 // include the TinkerKit library
 #include <TinkerKit.h>
 
-TKButton btn(I0);    // creating the object 'led' that belongs to the 'TKLed' class 
+TKButton btn(I0);    // creating the object 'btn' that belongs to the 'TKButton' class 
 		     // and giving the value to the desired output pin
 
-TKMosFet relay(O0);  // creating the object 'relay' that belongs to the 'TKRlay' class 
+TKRelay relay(O0);  // creating the object 'relay' that belongs to the 'TKRelay' class 
                      // and giving the value to the desired output pin
 
 void setup() {
